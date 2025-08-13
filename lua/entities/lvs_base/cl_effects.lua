@@ -75,7 +75,7 @@ function ENT:DoVehicleFX()
 
 		if EntTable._WaterSFX then EntTable._WaterSFX:ChangePitch( math.Clamp((Vel / 1000) * 50,80,150), 0.5 ) end
 
-		if traceWater.Hit and trace.HitPos.z < traceWater.HitPos.z then 
+		if traceWater.Hit and trace.HitPos.z < traceWater.HitPos.z then
 			local effectdata = EffectData()
 				effectdata:SetOrigin( traceWater.HitPos )
 				effectdata:SetEntity( self )

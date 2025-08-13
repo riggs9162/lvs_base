@@ -3,7 +3,7 @@ AddCSLuaFile( "cl_init.lua" )
 include("shared.lua")
 include("sv_ai.lua")
 
-function ENT:Initialize()	
+function ENT:Initialize()
 	self:SetMoveType( MOVETYPE_NONE )
 	self:SetSolid( SOLID_NONE )
 	self:DrawShadow( false )
@@ -16,7 +16,7 @@ function ENT:Think()
 	if self:GetAI() then
 		self:RunAI()
 	end
- 
+
 	self:NextThink( CurTime() )
 
 	return true
@@ -54,7 +54,7 @@ end
 function ENT:OnRemove()
 end
 
-function ENT:UpdateTransmitState() 
+function ENT:UpdateTransmitState()
 	return TRANSMIT_ALWAYS
 end
 

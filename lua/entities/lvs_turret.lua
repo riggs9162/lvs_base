@@ -67,7 +67,7 @@ if CLIENT then
 		if not istable( self.CrosshairFilterEnts ) then
 			self.CrosshairFilterEnts = {self}
 
-			-- lets ask the server to build the filter for us because it has access to constraint.GetAllConstrainedEntities() 
+			-- lets ask the server to build the filter for us because it has access to constraint.GetAllConstrainedEntities()
 			net.Start( "lvs_player_request_filter" )
 				net.WriteEntity( self )
 			net.SendToServer()
@@ -121,15 +121,15 @@ function ENT:TriggerInput( name, value )
 	end
 end
 
-function ENT:Initialize()	
+function ENT:Initialize()
 	self:SetModel( "models/props_junk/PopCan01a.mdl" )
 	self:PhysicsInit( SOLID_VPHYSICS )
 	self:SetMoveType( MOVETYPE_VPHYSICS )
 	self:SetSolid( SOLID_VPHYSICS )
-	self:SetCollisionGroup( COLLISION_GROUP_WEAPON  ) 
-	
+	self:SetCollisionGroup( COLLISION_GROUP_WEAPON  )
+
 	self:PhysWake()
-	
+
 	self.Inputs = WireLib.CreateInputs( self,{"Fire"} )
 end
 
@@ -139,9 +139,9 @@ end
 
 function ENT:CanShoot()
 	if not self.TriggerFire then return false end
-	
+
 	self.NextShoot = self.NextShoot or 0
-	
+
 	return self.NextShoot < CurTime()
 end
 
@@ -197,13 +197,13 @@ function ENT:Shoot()
 	self:SetNextShoot( CurTime() + self:GetShootDelay() )
 end
 
-function ENT:Think()	
+function ENT:Think()
 
 	self.BaseClass.Think( self )
-	
+
 	self:Shoot()
 
 	self:NextThink( CurTime() )
-	
+
 	return true
 end

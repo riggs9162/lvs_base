@@ -13,7 +13,7 @@ function LVS:GetBullet( index )
 end
 
 local NewBullet = {}
-NewBullet.__index = NewBullet 
+NewBullet.__index = NewBullet
 
 function NewBullet:SetPos( pos )
 	self.curpos = pos
@@ -126,7 +126,7 @@ function NewBullet:DoBulletFlight( TimeAlive )
 
 	local PosOffset
 
-	-- startpos, direction and curtime of creation is networked to client. 
+	-- startpos, direction and curtime of creation is networked to client.
 	-- the bullet position is simulated by doing startpos + dir * time * velocity
 	if self.EnableBallistics then
 		local PosTheoretical = StartDirection * TimeAlive * Velocity

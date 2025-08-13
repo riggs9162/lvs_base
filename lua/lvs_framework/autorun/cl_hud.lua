@@ -65,7 +65,7 @@ local function MakeFrame( id, X, Y, w, h, minw, minh, text )
 	local DCheckbox = vgui.Create( "DCheckBoxLabel", Frame )
 	DCheckbox:Dock( RIGHT )
 	DCheckbox:DockMargin( 0, 0, 0, 0 )
-	DCheckbox:SetText("Hide")	
+	DCheckbox:SetText("Hide")
 	DCheckbox:SizeToContents()
 	DCheckbox.id = id
 	DCheckbox:SetChecked( LVS.HudEditorsHide[ id ] == true )

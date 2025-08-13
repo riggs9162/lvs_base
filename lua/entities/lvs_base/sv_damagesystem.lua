@@ -201,7 +201,7 @@ function ENT:CalcDamage( dmginfo )
 
 	if self:IsDestroyed() then return end
 
-	local Attacker = dmginfo:GetAttacker() 
+	local Attacker = dmginfo:GetAttacker()
 
 	if IsValid( Attacker ) and Attacker:IsPlayer() and not IsFireDamage then
 		net.Start( "lvs_hitmarker" )
@@ -216,7 +216,7 @@ function ENT:CalcDamage( dmginfo )
 	end
 
 	if NewHealth <= 0 then
-		self.FinalAttacker = dmginfo:GetAttacker() 
+		self.FinalAttacker = dmginfo:GetAttacker()
 		self.FinalInflictor = dmginfo:GetInflictor()
 
 		self:SetDestroyed( IsCollisionDamage )

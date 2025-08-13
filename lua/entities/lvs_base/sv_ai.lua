@@ -35,7 +35,7 @@ function ENT:OnToggleAI( name, old, new )
 
 	if new == true then
 		local Driver = self:GetDriver()
-		
+
 		if IsValid( Driver ) then
 			Driver:ExitVehicle()
 		end
@@ -95,7 +95,7 @@ function ENT:AIGetTarget( viewcone )
 	if (self._lvsNextAICheck or 0) > CurTime() then return self._LastAITarget end
 
 	self._lvsNextAICheck = CurTime() + 2
-	
+
 	local MyPos = self:GetPos()
 	local MyTeam = self:GetAITEAM()
 
@@ -138,7 +138,7 @@ function ENT:AIGetTarget( viewcone )
 				if self.AISearchCone then
 					if not self:AITargetInFront( ply, self.AISearchCone ) then continue end
 				end
-				
+
 				if HisTeam != MyTeam or HisTeam == 3 then
 					ClosestTarget = ply
 					TargetDistance = Dist
@@ -194,7 +194,7 @@ function ENT:AIGetTarget( viewcone )
 	end
 
 	self._LastAITarget = ClosestTarget
-	
+
 	return ClosestTarget
 end
 

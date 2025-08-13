@@ -1,5 +1,5 @@
 
-ENT.DriverActiveSound = "vehicles/atv_ammo_close.wav" 
+ENT.DriverActiveSound = "vehicles/atv_ammo_close.wav"
 ENT.DriverInActiveSound = "vehicles/atv_ammo_open.wav"
 
 function ENT:AlignView( ply, SetZero )

@@ -3,7 +3,7 @@ AddCSLuaFile()
 ENT.Type            = "anim"
 ENT.DoNotDuplicate = true
 
-ENT.RenderGroup = RENDERGROUP_BOTH 
+ENT.RenderGroup = RENDERGROUP_BOTH
 
 ENT.UseRange = 75
 
@@ -108,7 +108,7 @@ if SERVER then
 		return self._LinkedSeat
 	end
 
-	function ENT:Initialize()	
+	function ENT:Initialize()
 		self:SetMoveType( MOVETYPE_NONE )
 		self:SetSolid( SOLID_NONE )
 		self:SetUseType( SIMPLE_USE )
@@ -251,9 +251,9 @@ if SERVER then
 	function ENT:Think()
 		if IsValid( self._LinkedSeat ) then
 			local Driver = self._LinkedSeat:GetDriver()
-	
+
 			if self._Driver != Driver then
-			
+
 				self:OnDriverChanged( self._Driver, Driver, self._LinkedSeat )
 
 				self._Driver = Driver

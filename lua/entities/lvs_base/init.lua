@@ -65,7 +65,7 @@ function ENT:Initialize()
 
 	local PObj = self:GetPhysicsObject()
 
-	if not IsValid( PObj ) then 
+	if not IsValid( PObj ) then
 		self:Remove()
 
 		print("LVS: missing model. Vehicle terminated.")
@@ -202,7 +202,7 @@ function ENT:IsUseAllowed( ply )
 
 	if (ply._lvsNextUse or 0) > CurTime() then return false end
 
-	if self:GetlvsLockedStatus() or (LVS.TeamPassenger and ((self:GetAITEAM() != ply:lvsGetAITeam()) and ply:lvsGetAITeam() != 0 and self:GetAITEAM() != 0)) then 
+	if self:GetlvsLockedStatus() or (LVS.TeamPassenger and ((self:GetAITEAM() != ply:lvsGetAITeam()) and ply:lvsGetAITeam() != 0 and self:GetAITEAM() != 0)) then
 		self:EmitSound( "doors/default_locked.wav" )
 
 		return false
@@ -301,7 +301,7 @@ end
 function ENT:OnMaintenance()
 end
 
-function ENT:UpdateTransmitState() 
+function ENT:UpdateTransmitState()
 	return TRANSMIT_ALWAYS
 end
 

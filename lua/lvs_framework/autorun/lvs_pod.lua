@@ -93,7 +93,7 @@ if CLIENT then
 		vehicle._SelectActiveTime = CurTime() + 2
 	end)
 
-	
+
 	net.Receive( "lvs_camera", function( length, ply )
 		local pod = net.ReadEntity()
 

@@ -13,7 +13,7 @@ ENT.AdminOnly		= true
 ENT.Editable = true
 
 function ENT:SetupDataTables()
-	local AllSents = scripted_ents.GetList() 
+	local AllSents = scripted_ents.GetList()
 	local SpawnOptions = {}
 
 	for _, v in pairs( AllSents ) do
@@ -72,9 +72,9 @@ if SERVER then
 	function ENT:OnTakeDamage( dmginfo )
 	end
 
-	function ENT:Initialize()	
+	function ENT:Initialize()
 		self:SetModel( "models/hunter/plates/plate8x8.mdl" )
-		
+
 		self:PhysicsInit( SOLID_VPHYSICS )
 		self:SetMoveType( MOVETYPE_VPHYSICS )
 		self:SetSolid( SOLID_VPHYSICS )
@@ -82,7 +82,7 @@ if SERVER then
 		self:DrawShadow( false )
 
 		self:SetCollisionGroup( COLLISION_GROUP_WORLD )
-		
+
 		self.NextSpawn = 0
 	end
 
@@ -94,7 +94,7 @@ if SERVER then
 			self.DefuseTime = CurTime()
 		end
 	end
-	
+
 	function ENT:Think()
 		if IsValid( self.Defusor ) and isnumber( self.DefuseTime ) then
 			if self.Defusor:KeyDown( IN_USE ) then
@@ -134,17 +134,17 @@ if SERVER then
 
 		if self.ShouldSpawn then
 			if self.NextSpawn < CurTime() then
-				
+
 				self.ShouldSpawn = false
-				
+
 				local pos = self:LocalToWorld( Vector( 0, 0, 150 ) )
 				local ang = self:LocalToWorldAngles( Angle( 0, 90, 0 ) )
-				
+
 				local Type = self:GetType()
-				
+
 				if Type != "" then
 					local spawnedvehicle = ents.Create( Type )
-					
+
 					if IsValid( spawnedvehicle ) then
 						if spawnedvehicle.SpawnNormalOffsetSpawner then
 							spawnedvehicle:SetPos( self:LocalToWorld( Vector(0,0,spawnedvehicle.SpawnNormalOffsetSpawner) ) )
@@ -166,7 +166,7 @@ if SERVER then
 							spawnedvehicle.MaxHealth = self:GetSpawnWithHealth()
 							spawnedvehicle:SetHP( self:GetSpawnWithHealth() )
 						end
-	
+
 						if self:GetSpawnWithShield() > 0 then
 							spawnedvehicle.MaxShield = self:GetSpawnWithShield()
 							spawnedvehicle:SetShield( self:GetSpawnWithShield() )
@@ -174,7 +174,7 @@ if SERVER then
 
 						if spawnedvehicle.LFS and not spawnedvehicle.DontPushMePlease then
 							local PhysObj = spawnedvehicle:GetPhysicsObject()
-							
+
 							if IsValid( PhysObj ) then
 								PhysObj:SetVelocityInstantaneous( -self:GetRight() * 1000 )
 							end
@@ -270,7 +270,7 @@ if CLIENT then
 
 					local OY = math.cos( T4 )
 					local A = math.max( math.sin( T4 ), 0 )
-		
+
 					surface.SetMaterial( ArrowMat )
 
 					if self:GetType() == "" then
@@ -286,7 +286,7 @@ if CLIENT then
 					end
 				else
 					surface.SetDrawColor( 255, 0, 0, 255 )
-		
+
 					surface.SetMaterial( ArrowMat )
 					surface.DrawTexturedRect( -512, -512, 1024, 1024 )
 				end

@@ -1,5 +1,5 @@
 
-LVS:AddHudEditor( "VehicleHealth", 10, ScrH() - 85,  220, 75, 220, 75, "VEHICLE HEALTH", 
+LVS:AddHudEditor( "VehicleHealth", 10, ScrH() - 85,  220, 75, 220, 75, "VEHICLE HEALTH",
 	function( self, vehicle, X, Y, W, H, ScrX, ScrY, ply )
 		if not vehicle.LVSHudPaintVehicleHealth then return end
 
@@ -7,7 +7,7 @@ LVS:AddHudEditor( "VehicleHealth", 10, ScrH() - 85,  220, 75, 220, 75, "VEHICLE 
 	end
 )
 
-LVS:AddHudEditor( "VehicleInfo", ScrW() - 460, ScrH() - 85,  220, 75, 220, 75, "VEHICLE INFORMATION", 
+LVS:AddHudEditor( "VehicleInfo", ScrW() - 460, ScrH() - 85,  220, 75, 220, 75, "VEHICLE INFORMATION",
 	function( self, vehicle, X, Y, W, H, ScrX, ScrY, ply )
 		if not vehicle.LVSHudPaintInfoText then return end
 
@@ -133,9 +133,9 @@ function ENT:LVSPaintHitMarker( scr )
 
 		surface.SetDrawColor( 255, 100, 0, 255 )
 		surface.DrawLine( scr.x + Start, scr.y + Start, scr.x + End, scr.y + End )
-		surface.DrawLine( scr.x - Start, scr.y + Start, scr.x - End, scr.y + End ) 
+		surface.DrawLine( scr.x - Start, scr.y + Start, scr.x - End, scr.y + End )
 		surface.DrawLine( scr.x + Start, scr.y - Start, scr.x + End, scr.y - End )
-		surface.DrawLine( scr.x - Start, scr.y - Start, scr.x - End, scr.y - End ) 
+		surface.DrawLine( scr.x - Start, scr.y - Start, scr.x - End, scr.y - End )
 
 		draw.NoTexture()
 		surface.DrawTexturedRectRotated( scr.x + Start, scr.y + Start, 3, 20, 45 )
@@ -153,9 +153,9 @@ function ENT:LVSPaintHitMarker( scr )
 		local End = 20 + aV * 45
 		surface.SetDrawColor( 255, 0, 0, 255 )
 		surface.DrawLine( scr.x + Start, scr.y + Start, scr.x + End, scr.y + End )
-		surface.DrawLine( scr.x - Start, scr.y + Start, scr.x - End, scr.y + End ) 
+		surface.DrawLine( scr.x - Start, scr.y + Start, scr.x - End, scr.y + End )
 		surface.DrawLine( scr.x + Start, scr.y - Start, scr.x + End, scr.y - End )
-		surface.DrawLine( scr.x - Start, scr.y - Start, scr.x - End, scr.y - End ) 
+		surface.DrawLine( scr.x - Start, scr.y - Start, scr.x - End, scr.y - End )
 
 		draw.NoTexture()
 		surface.DrawTexturedRectRotated( scr.x + Start, scr.y + Start, 5, 20, 45 )

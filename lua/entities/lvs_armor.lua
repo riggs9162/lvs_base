@@ -3,7 +3,7 @@ AddCSLuaFile()
 ENT.Type            = "anim"
 ENT.DoNotDuplicate = true
 
-ENT.RenderGroup = RENDERGROUP_BOTH 
+ENT.RenderGroup = RENDERGROUP_BOTH
 
 function ENT:SetupDataTables()
 	self:NetworkVar( "Entity",0, "Base" )
@@ -27,7 +27,7 @@ function ENT:SetupDataTables()
 end
 
 if SERVER then
-	function ENT:Initialize()	
+	function ENT:Initialize()
 		self:SetMoveType( MOVETYPE_NONE )
 		self:SetSolid( SOLID_NONE )
 		self:DrawShadow( false )
@@ -95,7 +95,7 @@ if SERVER then
 			trace.Entity = base
 		end
 
-		local DotHitNormal = math.Clamp( trace.HitNormal:Dot( dir ) ,-1,1) 
+		local DotHitNormal = math.Clamp( trace.HitNormal:Dot( dir ) ,-1,1)
 
 		local Armor = self:GetIgnoreForce()
 		local ArmorEffective = Armor / math.abs( DotHitNormal )
@@ -131,7 +131,7 @@ if SERVER then
 					effectdata:SetOrigin( trace.HitPos )
 					effectdata:SetNormal( -dir )
 				util.Effect( "manhacksparks", effectdata, true, true )
-	
+
 				self._NextBounce = T + 1
 
 				return false

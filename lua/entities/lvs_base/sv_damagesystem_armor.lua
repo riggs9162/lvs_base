@@ -54,8 +54,8 @@ function ENT:AddArmor( pos, ang, mins, maxs, health, minforce, target )
 					dmginfo:ScaleDamage( 0.05 )
 				end
 
-				local Attacker = dmginfo:GetAttacker() 
-	
+				local Attacker = dmginfo:GetAttacker()
+
 				if IsValid( Attacker ) and Attacker:IsPlayer() then
 					local NonLethal = self:GetHP() > Damage * ScaleDamage
 

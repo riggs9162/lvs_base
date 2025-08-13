@@ -12,7 +12,7 @@ end
 
 function ENT:PDSHealthValueChanged( name, old, new)
 	if new == old then return end
-	
+
 	if not self:IsInitialized() or not istable( self._pdsParts ) or new != self:GetMaxHP() then return end
 
 	for _, part in pairs( self._pdsParts ) do
@@ -113,7 +113,7 @@ local function DamagePart( ent, part, speed )
 
 		timer.Simple( 59.5, function()
 			if not IsValid( gib ) then return end
-			gib:SetRenderFX( kRenderFxFadeFast  ) 
+			gib:SetRenderFX( kRenderFxFadeFast  )
 		end)
 
 		timer.Simple( 60, function()
@@ -126,7 +126,7 @@ local function DamagePart( ent, part, speed )
 		if not IsValid( PhysObj ) then return end
 
 		PhysObj:SetVelocityInstantaneous( ent:GetVelocity() + Vector(0,0,250) )
-		PhysObj:AddAngleVelocity( VectorRand() * 500 ) 
+		PhysObj:AddAngleVelocity( VectorRand() * 500 )
 	end)
 end
 

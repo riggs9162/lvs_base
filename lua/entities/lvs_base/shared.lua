@@ -11,7 +11,7 @@ ENT.AdminSpawnable		= false
 ENT.VJ_ID_Destructible = true
 
 ENT.AutomaticFrameAdvance = true
-ENT.RenderGroup = RENDERGROUP_BOTH 
+ENT.RenderGroup = RENDERGROUP_BOTH
 
 ENT.Editable = true
 
@@ -133,8 +133,8 @@ function ENT:HitGround()
 		endpos = self:LocalToWorld( Vector(0,0,self:OBBMins().z - self.HitGroundLength) ),
 		filter = self:GetCrosshairFilterEnts()
 	} )
-	
-	return trace.Hit 
+
+	return trace.Hit
 end
 
 function ENT:Sign( n )

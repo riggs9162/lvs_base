@@ -29,7 +29,7 @@ end
 if SERVER then
 	util.AddNetworkString( "lvs_soundemitter_playonce" )
 
-	function ENT:Initialize()	
+	function ENT:Initialize()
 		self:SetMoveType( MOVETYPE_NONE )
 		self:SetSolid( SOLID_NONE )
 		self:DrawShadow( false )
@@ -40,7 +40,7 @@ if SERVER then
 		return false
 	end
 
-	function ENT:UpdateTransmitState() 
+	function ENT:UpdateTransmitState()
 		return TRANSMIT_ALWAYS
 	end
 

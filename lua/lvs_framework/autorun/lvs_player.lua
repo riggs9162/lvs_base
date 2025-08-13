@@ -58,7 +58,7 @@ function meta:lvsGetControls()
 	if not istable( self.LVS_BINDS ) then
 		self:lvsBuildControls()
 	end
-	
+
 	return self.LVS_BINDS
 end
 
@@ -165,9 +165,9 @@ local function GetInput( ply, name )
 		local Key = ply:lvsGetControls()[ name ] or 0
 
 		if IS_MOUSE_ENUM[ Key ] then
-			return input.IsMouseDown( Key ) 
+			return input.IsMouseDown( Key )
 		else
-			return input.IsKeyDown( Key ) 
+			return input.IsKeyDown( Key )
 		end
 	end
 end

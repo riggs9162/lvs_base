@@ -127,7 +127,7 @@ end
 
 function ENT:Think()
 	if not self:IsInitialized() then return end
- 
+
 	if self:HandleActive() then
 		self:OnFrameActive()
 	end
@@ -186,7 +186,7 @@ function ENT:GetCrosshairFilterEnts()
 	if not istable( self.CrosshairFilterEnts ) then
 		self.CrosshairFilterEnts = {self}
 
-		-- lets ask the server to build the filter for us because it has access to constraint.GetAllConstrainedEntities() 
+		-- lets ask the server to build the filter for us because it has access to constraint.GetAllConstrainedEntities()
 		net.Start( "lvs_player_request_filter" )
 			net.WriteEntity( self )
 		net.SendToServer()

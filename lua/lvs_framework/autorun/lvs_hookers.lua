@@ -48,7 +48,7 @@ hook.Add( "VehicleMove", "!!!!lvs_vehiclemove", function( ply, vehicle, mv )
 	end
 
 	if CLIENT and not IsFirstTimePredicted() then return end
-	
+
 	local KeyThirdPerson = ply:lvsKeyDown("THIRDPERSON")
 
 	if ply._lvsOldThirdPerson != KeyThirdPerson then

@@ -1,7 +1,7 @@
 
 ENT.IconVehicleLocked = Material( "lvs/locked.png" )
 
-LVS:AddHudEditor( "SeatSwitcher", ScrW() - 360, 10,  350, 60, 350, 60, "SEAT SWITCHER", 
+LVS:AddHudEditor( "SeatSwitcher", ScrW() - 360, 10,  350, 60, 350, 60, "SEAT SWITCHER",
 	function( self, vehicle, X, Y, W, H, ScrX, ScrY, ply )
 		if not vehicle.LVSHudPaintSeatSwitcher then return end
 
@@ -11,13 +11,13 @@ LVS:AddHudEditor( "SeatSwitcher", ScrW() - 360, 10,  350, 60, 350, 60, "SEAT SWI
 
 function ENT:LVSHudPaintSeatSwitcher( X, Y, w, h, ScrX, ScrY, ply )
 	local pSeats = table.Copy( self:GetPassengerSeats() )
-	local SeatCount = table.Count( pSeats ) 
+	local SeatCount = table.Count( pSeats )
 
 	if SeatCount <= 0 then return end
 
 	pSeats[0] = self:GetDriverSeat()
 
-	draw.NoTexture() 
+	draw.NoTexture()
 
 	local HasAI = self:GetAI()
 	local HasAIGunners = self:GetAIGunners()
@@ -39,7 +39,7 @@ function ENT:LVSHudPaintSeatSwitcher( X, Y, w, h, ScrX, ScrY, ply )
 	if HasAIGunners then
 		for _, Pod in pairs( self:GetPassengerSeats() ) do
 			if IsValid( Pod:GetDriver() ) then continue end
-	
+
 			local weapon = Pod:lvsGetWeapon()
 
 			if not IsValid( weapon ) then continue end
@@ -74,7 +74,7 @@ function ENT:LVSHudPaintSeatSwitcher( X, Y, w, h, ScrX, ScrY, ply )
 
 	ply.smHider = ply.smHider and (ply.smHider + ((Hide and 1 or 0) - ply.smHider) * RealFrameTime() * 15) or 0
 
-	local Alpha1 = 135 + 110 * ply.smHider 
+	local Alpha1 = 135 + 110 * ply.smHider
 	local HiderOffset = 270 * ply.smHider
 	local xPos = w - 35
 	local yPos = Y - (SeatCount + 1) * 30 + h + 5
@@ -114,7 +114,7 @@ function ENT:LVSHudPaintSeatSwitcher( X, Y, w, h, ScrX, ScrY, ply )
 			else
 				draw.DrawText( "-", "LVS_FONT_SWITCHER", X + 40 + xPos - xHider, yPos + I * 30 + 2.5, Color( 255, 255, 255,  Alpha1 ), TEXT_ALIGN_LEFT )
 			end
-			
+
 			draw.DrawText( "["..I.."]", "LVS_FONT_SWITCHER", X + 17 + xPos - xHider, yPos + I * 30 + 2.5, Color( 255, 255, 255, Alpha1 ), TEXT_ALIGN_CENTER )
 		else
 			if Passengers[I] then
