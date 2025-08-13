@@ -102,7 +102,7 @@ if SERVER then
 					self:SetMasterSwitch( not self:GetMasterSwitch() )
 
 					for k, v in pairs( ents.FindByClass( "lvs_vehicle_spammer" ) ) do
-						if v ~= self and IsValid( v ) then
+						if v != self and IsValid( v ) then
 							v:SetMasterSwitch( self:GetMasterSwitch() )
 						end
 					end
@@ -142,7 +142,7 @@ if SERVER then
 				
 				local Type = self:GetType()
 				
-				if Type ~= "" then
+				if Type != "" then
 					local spawnedvehicle = ents.Create( Type )
 					
 					if IsValid( spawnedvehicle ) then
@@ -254,7 +254,7 @@ if CLIENT then
 				if weapon_name == "gmod_camera" then return end
 
 				local Trace = ply:GetEyeTrace()
-				if Trace.Entity ~= self or (ply:GetShootPos() - Trace.HitPos):Length() > 800 then return end
+				if Trace.Entity != self or (ply:GetShootPos() - Trace.HitPos):Length() > 800 then return end
 			end
 		end
 
@@ -315,7 +315,7 @@ if CLIENT then
 
 		if not IsValid( Ent ) then return end
 
-		if Ent:GetClass() ~= "lvs_vehicle_spammer" then return end
+		if Ent:GetClass() != "lvs_vehicle_spammer" then return end
 
 		local pos = Ent:GetPos()
 		local scr = pos:ToScreen()

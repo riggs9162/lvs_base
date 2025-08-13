@@ -51,7 +51,7 @@ hook.Add( "VehicleMove", "!!!!lvs_vehiclemove", function( ply, vehicle, mv )
 	
 	local KeyThirdPerson = ply:lvsKeyDown("THIRDPERSON")
 
-	if ply._lvsOldThirdPerson ~= KeyThirdPerson then
+	if ply._lvsOldThirdPerson != KeyThirdPerson then
 		ply._lvsOldThirdPerson = KeyThirdPerson
 
 		if KeyThirdPerson and vehicle.SetThirdPersonMode then
@@ -126,7 +126,7 @@ if CLIENT then
 
 		local cvar = GetConVar( "lvs_mouseaim_type" )
 
-		if not cvar or cvar:GetInt() ~= 1 or not veh.GetVehicleType then return end
+		if not cvar or cvar:GetInt() != 1 or not veh.GetVehicleType then return end
 
 		local vehicletype = veh:GetVehicleType()
 
@@ -238,7 +238,7 @@ hook.Add( "PlayerEnteredVehicle", "!!!!lvs_player_enter", function( ply, Pod )
 		if LVS.FreezeTeams then
 			local nTeam = ply:lvsGetAITeam()
 
-			if veh:GetAITEAM() ~= nTeam then
+			if veh:GetAITEAM() != nTeam then
 				veh:SetAITEAM( nTeam )
 
 				ply:PrintMessage( HUD_PRINTTALK, "[LVS] This Vehicle's AI-Team has been updated to: "..(LVS.TEAMS[ nTeam ] or "") )

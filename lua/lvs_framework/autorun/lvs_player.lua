@@ -228,7 +228,7 @@ if CLIENT then
 	local function KeyBlocker()
 		local Visible = gui.IsGameUIVisible() or vgui.CursorVisible()
 
-		if Visible ~= OldVisible then
+		if Visible != OldVisible then
 			OldVisible = Visible
 
 			local ply = LocalPlayer()
@@ -353,7 +353,7 @@ LVS.TEAMS = {
 function meta:lvsSetAITeam( nTeam )
 	nTeam = nTeam or LVS.PlayerDefaultTeam
 
-	if self:lvsGetAITeam() ~= nTeam then
+	if self:lvsGetAITeam() != nTeam then
 		self:PrintMessage( HUD_PRINTTALK, "[LVS] Your AI-Team has been updated to: "..(LVS.TEAMS[ nTeam ] or "") )
 	end
 

@@ -53,7 +53,7 @@ function ENT:LVSHudPaintSeatSwitcher( X, Y, w, h, ScrX, ScrY, ply )
 
 	local Time = CurTime()
 	for k, v in pairs( Passengers ) do
-		if ply._lvsoldPassengers[k] ~= v then
+		if ply._lvsoldPassengers[k] != v then
 			ply._lvsoldPassengers[k] = v
 			ply.SwitcherTime = Time + 2
 		end

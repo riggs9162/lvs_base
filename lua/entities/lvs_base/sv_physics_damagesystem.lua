@@ -13,7 +13,7 @@ end
 function ENT:PDSHealthValueChanged( name, old, new)
 	if new == old then return end
 	
-	if not self:IsInitialized() or not istable( self._pdsParts ) or new ~= self:GetMaxHP() then return end
+	if not self:IsInitialized() or not istable( self._pdsParts ) or new != self:GetMaxHP() then return end
 
 	for _, part in pairs( self._pdsParts ) do
 		part:SetStage( 0 )

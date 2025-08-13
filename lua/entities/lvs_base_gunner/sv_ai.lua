@@ -66,7 +66,7 @@ function ENT:RunAI()
 	end
 
 	if IsValid( trace.Entity ) and trace.Entity.GetAITEAM then
-		EntTable._AIFireInput = (trace.Entity:GetAITEAM() ~= self:GetAITEAM() or trace.Entity:GetAITEAM() == 0)
+		EntTable._AIFireInput = (trace.Entity:GetAITEAM() != self:GetAITEAM() or trace.Entity:GetAITEAM() == 0)
 	else
 		EntTable._AIFireInput = true
 	end

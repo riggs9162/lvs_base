@@ -30,7 +30,7 @@ function ENT:HandleActive()
 	local Driver = Pod:GetDriver()
 	local Active = self:GetActive()
 
-	if Driver ~= self:GetDriver() then
+	if Driver != self:GetDriver() then
 		local NewDriver = Driver
 		local OldDriver = self:GetDriver()
 		local IsActive = IsValid( Driver )
@@ -58,7 +58,7 @@ function ENT:SetPassenger( ply )
 
 	local AI = self:GetAI()
 	local DriverSeat = self:GetDriverSeat()
-	local AllowedToBeDriver = hook.Run( "LVS.CanPlayerDrive", ply, self ) ~= false
+	local AllowedToBeDriver = hook.Run( "LVS.CanPlayerDrive", ply, self ) != false
 
 	if IsValid( DriverSeat ) and not IsValid( DriverSeat:GetDriver() ) and not ply:KeyDown( IN_WALK ) and not AI and AllowedToBeDriver then
 		ply:EnterVehicle( DriverSeat )

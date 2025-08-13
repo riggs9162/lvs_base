@@ -27,7 +27,7 @@ function TOOL:LeftClick( trace )
 	if SERVER then
 		local Team = self:GetClientNumber( "team" )
 
-		if Team ~= -1 then
+		if Team != -1 then
 			ent:SetAITEAM( math.Clamp( Team, 0, 3 ) )
 		end
 	end

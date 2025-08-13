@@ -96,13 +96,13 @@ function ENT:HandleActive()
 	local EngineActive = self:GetEngineActive()
 	local ActiveChanged = false
 
-	if EntTable._oldActive ~= Active then
+	if EntTable._oldActive != Active then
 		EntTable._oldActive = Active
 		EntTable:OnActiveChanged( Active )
 		ActiveChanged = true
 	end
 
-	if EntTable._oldEnActive ~= EngineActive then
+	if EntTable._oldEnActive != EngineActive then
 		EntTable._oldEnActive = EngineActive
 		self:OnEngineActiveChanged( EngineActive )
 		ActiveChanged = true

@@ -53,7 +53,7 @@ local function MakeFrame( id, X, Y, w, h, minw, minh, text )
 
 		local Ratio = LVS.HudEditors[ self.id ].DefaultHeight / LVS.HudEditors[ self.id ].DefaultWidth
 
-		if math.Round( Height / Width, 2 ) ~= math.Round( Ratio ,2 ) then
+		if math.Round( Height / Width, 2 ) != math.Round( Ratio ,2 ) then
 			local NewHeight = Width * Ratio
 
 			self:SetHeight( NewHeight )
@@ -88,7 +88,7 @@ local ScreenHeight = ScrH()
 local function SaveEditors()
 	if LVS.HudForceDefault then return end
 
-	if ScreenWidth ~= ScrW() or ScreenHeight ~= ScrH() then return end -- player changed resolution while ingame... don't save because everything is fucked up now...
+	if ScreenWidth != ScrW() or ScreenHeight != ScrH() then return end -- player changed resolution while ingame... don't save because everything is fucked up now...
 
 	local SaveString = ""
 	for id, data in pairs( LVS.HudEditors ) do
@@ -269,7 +269,7 @@ local function PaintIdentifier( ent )
 			IndicatorColor = Color( 0, 255, 0, Alpha )
 		else
 			if Team == 1 or Team == 2 then
-				if Team ~= MyTeam and MyTeam ~= 0 then
+				if Team != MyTeam and MyTeam != 0 then
 					IndicatorColor = Color( 255, 0, 0, Alpha )
 				else
 					IndicatorColor = Color( 0, 127, 255, Alpha )
@@ -286,7 +286,7 @@ end
 hook.Add( "HUDPaint", "!!!!!LVS_hud", function()
 	local ply = LocalPlayer()
 
-	if ply:GetViewEntity() ~= ply then return end
+	if ply:GetViewEntity() != ply then return end
 
 	local Pod = ply:GetVehicle()
 	local Parent = ply:lvsGetVehicle()

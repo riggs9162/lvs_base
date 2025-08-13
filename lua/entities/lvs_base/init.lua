@@ -128,7 +128,7 @@ function ENT:PostInitialize( PObj )
 end
 
 function ENT:OnSpawnFinish( PObj )
-	if GetConVar( "developer" ):GetInt() ~= 1 then
+	if GetConVar( "developer" ):GetInt() != 1 then
 		PObj:EnableMotion( true )
 	end
 
@@ -202,7 +202,7 @@ function ENT:IsUseAllowed( ply )
 
 	if (ply._lvsNextUse or 0) > CurTime() then return false end
 
-	if self:GetlvsLockedStatus() or (LVS.TeamPassenger and ((self:GetAITEAM() ~= ply:lvsGetAITeam()) and ply:lvsGetAITeam() ~= 0 and self:GetAITEAM() ~= 0)) then 
+	if self:GetlvsLockedStatus() or (LVS.TeamPassenger and ((self:GetAITEAM() != ply:lvsGetAITeam()) and ply:lvsGetAITeam() != 0 and self:GetAITEAM() != 0)) then 
 		self:EmitSound( "doors/default_locked.wav" )
 
 		return false
@@ -255,7 +255,7 @@ function ENT:Use( ply )
 
 	local DriverSeat = self:GetDriverSeat()
 
-	if Pod ~= self:GetDriverSeat() then
+	if Pod != self:GetDriverSeat() then
 		if IsValid( Pod:GetDriver() ) then
 			self:SetPassenger( ply )
 		else
@@ -280,7 +280,7 @@ function ENT:Use( ply )
 		return
 	end
 
-	if hook.Run( "LVS.CanPlayerDrive", ply, self ) ~= false then
+	if hook.Run( "LVS.CanPlayerDrive", ply, self ) != false then
 		ply:EnterVehicle( Pod )
 		self:AlignView( ply )
 

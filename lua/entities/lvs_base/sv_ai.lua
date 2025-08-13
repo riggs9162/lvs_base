@@ -117,7 +117,7 @@ function ENT:AIGetTarget( viewcone )
 			local Veh = ply:lvsGetVehicle()
 
 			if IsValid( Veh ) then
-				if self:AICanSee( Veh ) and Veh ~= self then
+				if self:AICanSee( Veh ) and Veh != self then
 					local HisTeam = Veh:GetAITEAM()
 
 					if HisTeam == 0 then continue end
@@ -126,7 +126,7 @@ function ENT:AIGetTarget( viewcone )
 						if not self:AITargetInFront( Veh, self.AISearchCone ) then continue end
 					end
 
-					if HisTeam ~= MyTeam or HisTeam == 3 then
+					if HisTeam != MyTeam or HisTeam == 3 then
 						ClosestTarget = Veh
 						TargetDistance = Dist
 					end
@@ -139,7 +139,7 @@ function ENT:AIGetTarget( viewcone )
 					if not self:AITargetInFront( ply, self.AISearchCone ) then continue end
 				end
 				
-				if HisTeam ~= MyTeam or HisTeam == 3 then
+				if HisTeam != MyTeam or HisTeam == 3 then
 					ClosestTarget = ply
 					TargetDistance = Dist
 				end
@@ -151,7 +151,7 @@ function ENT:AIGetTarget( viewcone )
 		for _, npc in pairs( LVS:GetNPCs() ) do
 			local HisTeam = LVS:GetNPCRelationship( npc:GetClass() )
 
-			if HisTeam == 0 or (HisTeam == MyTeam and HisTeam ~= 3) then continue end
+			if HisTeam == 0 or (HisTeam == MyTeam and HisTeam != 3) then continue end
 
 			local Dist = (npc:GetPos() - MyPos):Length()
 
@@ -180,7 +180,7 @@ function ENT:AIGetTarget( viewcone )
 		if HisTeam == 0 then continue end
 
 		if HisTeam == self:GetAITEAM() then
-			if HisTeam ~= 3 then continue end
+			if HisTeam != 3 then continue end
 		end
 
 		if self.AISearchCone then
@@ -226,5 +226,5 @@ function ENT:IsEnemy( ent )
 
 	if HisTeam == 3 then return true end
 
-	return HisTeam ~= self:GetAITEAM()
+	return HisTeam != self:GetAITEAM()
 end

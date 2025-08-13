@@ -90,7 +90,7 @@ function ENT:LVSPaintHitMarker( scr )
 	local T = CurTime()
 
 	local aV = math.cos( math.rad( math.max(((self:GetHitMarker() - T) / 0.15) * 360,0) ) )
-	if aV ~= 1 then
+	if aV != 1 then
 		local Start = 12 + (1 - aV) * 8
 		local dst = 10
 

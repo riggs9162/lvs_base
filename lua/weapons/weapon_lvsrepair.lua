@@ -70,7 +70,7 @@ function SWEP:FindClosest()
 		if not IsValid( target ) then continue end
 
 		for _, entity in pairs( target:GetChildren() ) do
-			if entity:GetClass() ~= "lvs_armor" then continue end
+			if entity:GetClass() != "lvs_armor" then continue end
 
 			local boxOrigin = entity:GetPos()
 			local boxAngles = entity:GetAngles()
@@ -297,7 +297,7 @@ function SWEP:PrimaryAttack()
 	if IsFirstTimePredicted() then
 		local trace = ply:GetEyeTrace()
 
-		if HP ~= MaxHP then
+		if HP != MaxHP then
 			local effectdata = EffectData()
 			effectdata:SetOrigin( trace.HitPos )
 			effectdata:SetNormal( trace.HitNormal )

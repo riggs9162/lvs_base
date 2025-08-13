@@ -28,14 +28,14 @@ if SERVER then
 
 	LVS.ForceDirectInput = cVar_forcedirect and cVar_forcedirect:GetBool() or false
 	cvars.AddChangeCallback( "lvs_force_directinput", function( convar, oldValue, newValue ) 
-		LVS.ForceDirectInput = tonumber( newValue ) ~=0
+		LVS.ForceDirectInput = tonumber( newValue ) !=0
 
 		UpdateForcedSettings()
 	end)
 
 	LVS.ForceIndicator = cVar_forceindicator and cVar_forceindicator:GetBool() or false
 	cvars.AddChangeCallback( "lvs_force_forceindicator", function( convar, oldValue, newValue ) 
-		LVS.ForceIndicator = tonumber( newValue ) ~=0
+		LVS.ForceIndicator = tonumber( newValue ) !=0
 
 		UpdateForcedSettings()
 	end)

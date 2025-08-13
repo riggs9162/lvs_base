@@ -66,7 +66,7 @@ function ENT:TakeShieldDamage( damage )
 end
 
 function ENT:OnTakeShieldDamage( dmginfo )
-	if dmginfo:GetDamage() ~= 0 then return end
+	if dmginfo:GetDamage() != 0 then return end
 
 	local dmgNormal = -dmginfo:GetDamageForce():GetNormalized() 
 	local dmgPos = dmginfo:GetDamagePosition()

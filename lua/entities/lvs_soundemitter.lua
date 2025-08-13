@@ -151,13 +151,13 @@ function ENT:StartSounds()
 	local snd = self:GetSound()
 	local snd_int = self:GetSoundInterior()
 
-	if snd ~= "" then
+	if snd != "" then
 		self.snd = CreateSound( self, snd )
 		self.snd:SetSoundLevel( self:GetSoundLevel() )
 		self.snd:PlayEx(0,100)
 	end
 
-	if snd == snd_int or snd_int == "" or LocalPlayer():lvsGetVehicle() ~= self:GetBase() then
+	if snd == snd_int or snd_int == "" or LocalPlayer():lvsGetVehicle() != self:GetBase() then
 		if self.snd then self.snd:ChangeVolume( 1, 0 ) end
 
 		return
@@ -197,7 +197,7 @@ ENT._oldActive = false
 function ENT:Think()
 	local Active = self:GetActive() and (self.NextActive or 0) < CurTime()
 
-	if self._oldActive ~= Active then
+	if self._oldActive != Active then
 		self._oldActive = Active
 		self:OnActiveChanged( Active )
 	end

@@ -117,7 +117,7 @@ if SERVER then
 		if DamageForce <= ArmorEffective and not IsBlastDamage then
 			local T = CurTime()
 
-			if trace.Entity ~= base then
+			if trace.Entity != base then
 				self._NextBounce = T + 1
 
 				return false

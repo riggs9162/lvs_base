@@ -29,7 +29,7 @@ if CLIENT then
 	function meta:lvsGetPodIndex()
 		local id = self:GetNWInt( "pPodIndex", -1 )
 
-		if id ~= -1 then return id end
+		if id != -1 then return id end
 
 		-- code below is bandaid fix for ent:GetNWInt taking up to 5 minutes to update on client...
 
@@ -88,7 +88,7 @@ if CLIENT then
 		local ply = LocalPlayer()
 		local vehicle = ply:lvsGetVehicle()
 
-		if not IsValid( vehicle ) or vehicle:GetDriver() ~= ply then return end
+		if not IsValid( vehicle ) or vehicle:GetDriver() != ply then return end
 
 		vehicle._SelectActiveTime = CurTime() + 2
 	end)

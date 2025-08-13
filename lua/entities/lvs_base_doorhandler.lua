@@ -252,7 +252,7 @@ if SERVER then
 		if IsValid( self._LinkedSeat ) then
 			local Driver = self._LinkedSeat:GetDriver()
 	
-			if self._Driver ~= Driver then
+			if self._Driver != Driver then
 			
 				self:OnDriverChanged( self._Driver, Driver, self._LinkedSeat )
 
@@ -329,7 +329,7 @@ function ENT:DrawTranslucent()
 
 		local Use = ply:KeyDown( IN_USE )
 
-		if EntTable.old_Use ~= Use then
+		if EntTable.old_Use != Use then
 			EntTable.old_Use = Use
 
 			if Use then

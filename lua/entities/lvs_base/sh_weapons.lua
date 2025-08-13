@@ -49,7 +49,7 @@ function ENT:AddWeapon( weaponData, PodID )
 	data.OnThink = data.OnThink or default.OnThink
 	data.OnOverheat = data.OnOverheat or default.OnOverheat
 	data.OnRemove = data.OnRemove or default.OnRemove
-	data.UseableByAI = data.UseableByAI ~= false
+	data.UseableByAI = data.UseableByAI != false
 
 	table.insert( self.WEAPONS[ PodID ], data )
 end
@@ -271,7 +271,7 @@ if SERVER then
 
 			if IsActive then continue end
 
-			if Weapon.HeatIsClip and not Weapon.Overheated and Weapon._CurHeat ~= 0 then
+			if Weapon.HeatIsClip and not Weapon.Overheated and Weapon._CurHeat != 0 then
 				Weapon.Overheated = true
 				Weapon._CurHeat = 1
 
@@ -307,7 +307,7 @@ if SERVER then
 			end
 		end
 
-		if ShouldFire ~= EntTable.OldAttack then
+		if ShouldFire != EntTable.OldAttack then
 			EntTable.OldAttack = ShouldFire
 
 			if ShouldFire then
@@ -601,7 +601,7 @@ function ENT:LVSHudPaintWeapons( X, Y, w, h, ScrX, ScrY, ply )
 	local SizeY = h - gap
 
 	local Selected = Base:GetSelectedWeapon()
-	if Selected ~= EntTable._OldSelected then
+	if Selected != EntTable._OldSelected then
 		EntTable._OldSelected = Selected
 		Pod._SelectActiveTime = T + 2
 	end

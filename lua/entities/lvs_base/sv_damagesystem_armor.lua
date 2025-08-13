@@ -88,11 +88,11 @@ function ENT:OnArmorMaintenance()
 	for _, part in pairs( self:GetCrosshairFilterEnts() ) do
 		if not IsValid( part ) then continue end
 
-		if part:GetClass() ~= "lvs_armor" then continue end
+		if part:GetClass() != "lvs_armor" then continue end
 
 		part:OnRepaired()
 
-		if part:GetHP() ~= part:GetMaxHP() then
+		if part:GetHP() != part:GetMaxHP() then
 			part:SetHP( part:GetMaxHP() )
 
 			if part:GetDestroyed() then part:SetDestroyed( false ) end

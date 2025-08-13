@@ -198,7 +198,7 @@ end
 function NewBullet:DoSplashDamage( trace )
 	if not self.SplashDamage or not self.SplashDamageRadius then return false end
 
-	if self.SplashDamageEffect ~= "" then
+	if self.SplashDamageEffect != "" then
 		local effectdata = EffectData()
 		effectdata:SetOrigin( trace.HitPos )
 		effectdata:SetNormal( trace.HitWorld and trace.HitNormal or self.Dir )

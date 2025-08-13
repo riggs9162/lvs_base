@@ -172,7 +172,7 @@ function ENT:CalcDamage( dmginfo )
 	if dmginfo:IsDamageType( self.DSArmorIgnoreDamageType ) then return end
 
 	if dmginfo:IsDamageType( self.DSArmorDamageReductionType ) then
-		if dmginfo:GetDamage() ~= 0 then
+		if dmginfo:GetDamage() != 0 then
 			dmginfo:ScaleDamage( self.DSArmorDamageReduction )
 
 			dmginfo:SetDamage( math.max(dmginfo:GetDamage(),1) )

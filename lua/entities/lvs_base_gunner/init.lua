@@ -31,7 +31,7 @@ function ENT:HandleActive()
 
 	local Driver = Pod:GetDriver()
 
-	if Driver ~= self:GetDriver() then
+	if Driver != self:GetDriver() then
 		local NewDriver = Driver
 		local OldDriver = self:GetDriver()
 
@@ -194,7 +194,7 @@ function ENT:WeaponsThink()
 
 		if IsActive then continue end
 
-		if Weapon.HeatIsClip and not Weapon.Overheated and Weapon._CurHeat ~= 0 then
+		if Weapon.HeatIsClip and not Weapon.Overheated and Weapon._CurHeat != 0 then
 			Weapon.Overheated = true
 			Weapon._CurHeat = 1
 
@@ -230,7 +230,7 @@ function ENT:WeaponsThink()
 		end
 	end
 
-	if ShouldFire ~= self.OldAttack then
+	if ShouldFire != self.OldAttack then
 		self.OldAttack = ShouldFire
 
 		if ShouldFire then

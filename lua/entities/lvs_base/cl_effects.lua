@@ -4,7 +4,7 @@ function ENT:StartWindSounds()
 
 	self:StopWindSounds()
 
-	if LocalPlayer():lvsGetVehicle() ~= self then return end
+	if LocalPlayer():lvsGetVehicle() != self then return end
 
 	local EntTable = self:GetTable()
 

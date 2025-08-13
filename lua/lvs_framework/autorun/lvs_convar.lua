@@ -3,13 +3,13 @@
 LVS.cVar_FreezeTeams = CreateConVar( "lvs_freeze_teams", "0", {FCVAR_REPLICATED , FCVAR_ARCHIVE},"enable/disable auto ai-team switching" )
 LVS.FreezeTeams = LVS.cVar_FreezeTeams and LVS.cVar_FreezeTeams:GetBool() or false
 cvars.AddChangeCallback( "lvs_freeze_teams", function( convar, oldValue, newValue ) 
-	LVS.FreezeTeams = tonumber( newValue ) ~=0
+	LVS.FreezeTeams = tonumber( newValue ) !=0
 end, "lvs_freezeteams_callback" )
 
 LVS.cVar_TeamPassenger = CreateConVar( "lvs_teampassenger", "0", {FCVAR_REPLICATED , FCVAR_ARCHIVE},"only allow players of matching ai-team to enter the vehicle? 1 = team only, 0 = everyone can enter" )
 LVS.TeamPassenger = LVS.cVar_TeamPassenger and LVS.cVar_TeamPassenger:GetBool() or false
 cvars.AddChangeCallback( "lvs_teampassenger", function( convar, oldValue, newValue ) 
-	LVS.TeamPassenger = tonumber( newValue ) ~= 0
+	LVS.TeamPassenger = tonumber( newValue ) != 0
 end, "lvs_teampassenger_callback" )
 
 LVS.cVar_PlayerDefaultTeam = CreateConVar( "lvs_default_teams", "0", {FCVAR_REPLICATED , FCVAR_ARCHIVE},"set default player ai-team" )
@@ -21,13 +21,13 @@ end, "lvs_defaultteam_callback" )
 LVS.cVar_IgnoreNPCs = CreateConVar( "lvs_ai_ignorenpcs", "0", {FCVAR_REPLICATED , FCVAR_ARCHIVE},"should LVS-AI ignore NPCs?" )
 LVS.IgnoreNPCs = LVS.cVar_IgnoreNPCs and LVS.cVar_IgnoreNPCs:GetBool() or false
 cvars.AddChangeCallback( "lvs_ai_ignoreplayers", function( convar, oldValue, newValue ) 
-	LVS.IgnorePlayers = tonumber( newValue ) ~=0
+	LVS.IgnorePlayers = tonumber( newValue ) !=0
 end)
 
 LVS.cVar_playerignore = CreateConVar( "lvs_ai_ignoreplayers", "0", {FCVAR_REPLICATED , FCVAR_ARCHIVE},"should LVS-AI ignore Players?" )
 LVS.IgnorePlayers = LVS.cVar_playerignore and LVS.cVar_playerignore:GetBool() or false
 cvars.AddChangeCallback( "lvs_ai_ignorenpcs", function( convar, oldValue, newValue ) 
-	LVS.IgnoreNPCs = tonumber( newValue ) ~=0
+	LVS.IgnoreNPCs = tonumber( newValue ) !=0
 end)
 
 if SERVER then
@@ -63,31 +63,31 @@ end)
 local cvarTrail = CreateClientConVar( "lvs_show_traileffects", 1, true, false)
 LVS.ShowTraileffects = cvarTrail and cvarTrail:GetBool() or true
 cvars.AddChangeCallback( "lvs_show_traileffects", function( convar, oldValue, newValue ) 
-	LVS.ShowTraileffects = tonumber( newValue ) ~=0
+	LVS.ShowTraileffects = tonumber( newValue ) !=0
 end)
 
 local cvarEffects = CreateClientConVar( "lvs_show_effects", 1, true, false)
 LVS.ShowEffects = cvarEffects and cvarEffects:GetBool() or true
 cvars.AddChangeCallback( "lvs_show_effects", function( convar, oldValue, newValue ) 
-	LVS.ShowEffects = tonumber( newValue ) ~=0
+	LVS.ShowEffects = tonumber( newValue ) !=0
 end)
 
 local cvarPhysEffects = CreateClientConVar( "lvs_show_physicseffects", 1, true, false)
 LVS.ShowPhysicsEffects = cvarPhysEffects and cvarPhysEffects:GetBool() or true
 cvars.AddChangeCallback( "lvs_show_physicseffects", function( convar, oldValue, newValue ) 
-	LVS.ShowPhysicsEffects = tonumber( newValue ) ~=0
+	LVS.ShowPhysicsEffects = tonumber( newValue ) !=0
 end)
 
 local cvarShowIdent = CreateClientConVar( "lvs_show_identifier", 1, true, false)
 LVS.ShowIdent = cvarShowIdent and cvarShowIdent:GetBool() or true
 cvars.AddChangeCallback( "lvs_show_identifier", function( convar, oldValue, newValue ) 
-	LVS.ShowIdent = tonumber( newValue ) ~=0
+	LVS.ShowIdent = tonumber( newValue ) !=0
 end)
 
 local cvarHitMarker = CreateClientConVar( "lvs_hitmarker", 1, true, false)
 LVS.ShowHitMarker = cvarHitMarker and cvarHitMarker:GetBool() or false
 cvars.AddChangeCallback( "lvs_hitmarker", function( convar, oldValue, newValue ) 
-	LVS.ShowHitMarker = tonumber( newValue ) ~=0
+	LVS.ShowHitMarker = tonumber( newValue ) !=0
 end)
 
 local cvarAntiAlias = GetConVar( "mat_antialias" )
@@ -99,7 +99,7 @@ end)
 local cvarBulletSFX = CreateClientConVar( "lvs_bullet_nearmiss", 1, true, false)
 LVS.EnableBulletNearmiss = cvarBulletSFX and cvarBulletSFX:GetBool() or true
 cvars.AddChangeCallback( "lvs_bullet_nearmiss", function( convar, oldValue, newValue ) 
-	LVS.EnableBulletNearmiss = tonumber( newValue ) ~=0
+	LVS.EnableBulletNearmiss = tonumber( newValue ) !=0
 end)
 
 local cvarDev = GetConVar( "developer" )

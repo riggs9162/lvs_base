@@ -241,7 +241,7 @@ local function ClientControls( Canvas )
 		end
 
 		for _, entry in pairs( LVS.KEYS_REGISTERED ) do
-			if entry.category ~= category then continue end
+			if entry.category != category then continue end
 
 			local DPanel = vgui.Create( "DPanel", DScrollPanel )
 			DPanel.Paint = function(self, w, h ) end

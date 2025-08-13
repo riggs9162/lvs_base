@@ -40,7 +40,7 @@ function LVS:CalcView( vehicle, ply, pos, angles, fov, pod )
 end
 
 hook.Add( "CalcView", "!!!!LVS_calcview", function(ply, pos, angles, fov)
-	if ply:GetViewEntity() ~= ply then return end
+	if ply:GetViewEntity() != ply then return end
 
 	local pod = ply:GetVehicle()
 	local vehicle = ply:lvsGetVehicle()

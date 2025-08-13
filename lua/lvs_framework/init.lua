@@ -84,7 +84,7 @@ function LVS:BlastDamage( pos, forward, attacker, inflictor, damage, damagetype,
 	dmginfo:SetDamage( damage )
 	dmginfo:SetDamageType( damagetype == DMG_BLAST and DMG_SONIC or damagetype )
 
-	if damagetype ~= DMG_BLAST then
+	if damagetype != DMG_BLAST then
 		dmginfo:SetDamagePosition( pos )
 		dmginfo:SetDamageForce( forward * force )
 

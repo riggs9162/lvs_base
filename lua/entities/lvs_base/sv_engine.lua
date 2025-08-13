@@ -5,7 +5,7 @@ function ENT:HandleStart()
 	if IsValid( Driver ) then
 		local KeyReload = Driver:lvsKeyDown( "ENGINE" )
 
-		if self.OldKeyReload ~= KeyReload then
+		if self.OldKeyReload != KeyReload then
 			self.OldKeyReload = KeyReload
 
 			if KeyReload then

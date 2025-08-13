@@ -40,7 +40,7 @@ if SERVER then
 
 		local Repaired = false
 
-		if entity:GetHP() ~= entity:GetMaxHP() then
+		if entity:GetHP() != entity:GetMaxHP() then
 			entity:SetHP( entity:GetMaxHP() )
 
 			Repaired = true

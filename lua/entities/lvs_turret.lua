@@ -172,7 +172,7 @@ function ENT:Shoot()
 	local SplashDamage = self:GetSplashDamage()
 	local SplashDamageRadius = self:GetSplashDamageRadius()
 
-	if SplashDamage ~= 0 and SplashDamageRadius ~= 0 then
+	if SplashDamage != 0 and SplashDamageRadius != 0 then
 		bullet.SplashDamage = SplashDamage
 		bullet.SplashDamageRadius = SplashDamageRadius
 

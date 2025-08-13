@@ -44,7 +44,7 @@ hook.Add( "PlayerButtonDown", "!!!lvsSeatSwitcherButtonDown", function( ply, but
 		end
 	else
 		for _, Pod in pairs( vehicle:GetPassengerSeats() ) do
-			if not IsValid( Pod ) or Pod:GetNWInt( "pPodIndex", 3 ) ~= LVS.pSwitchKeys[ button ] or IsValid( Pod:GetDriver() ) then continue end
+			if not IsValid( Pod ) or Pod:GetNWInt( "pPodIndex", 3 ) != LVS.pSwitchKeys[ button ] or IsValid( Pod:GetDriver() ) then continue end
 
 			if hook.Run( "LVS.OnPlayerRequestSeatSwitch", ply, vehicle, CurPod, Pod ) == false then continue end
 

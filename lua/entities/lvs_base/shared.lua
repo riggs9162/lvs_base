@@ -223,7 +223,7 @@ function ENT:GetPassengerSeats()
 		local DriverSeat = self:GetDriverSeat()
 
 		for _, v in pairs( self:GetChildren() ) do
-			if v ~= DriverSeat and v:GetClass():lower() == "prop_vehicle_prisoner_pod" then
+			if v != DriverSeat and v:GetClass():lower() == "prop_vehicle_prisoner_pod" then
 				table.insert( self.pSeats, v )
 			end
 		end
@@ -236,7 +236,7 @@ function ENT:HasActiveSoundEmitters()
 	local active = false
 
 	for _, emitter in ipairs( self:GetChildren() ) do
-		if emitter:GetClass() ~= "lvs_soundemitter" then continue end
+		if emitter:GetClass() != "lvs_soundemitter" then continue end
 
 		if not IsValid( emitter ) or not emitter.GetActive or not emitter.GetActiveVisible then continue end
 
@@ -331,7 +331,7 @@ function ENT:GetBoneInfo( BoneName )
 			local bone = self:GetHitBoxBone( hitbox, hboxset )
 			local name = self:GetBoneName( bone )
 
-			if BoneName ~= name then continue end
+			if BoneName != name then continue end
 
 			local mins, maxs = self:GetHitBoxBounds( hitbox, hboxset )
 			local pos, ang = self:GetBonePosition( BoneID )

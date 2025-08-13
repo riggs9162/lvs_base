@@ -25,7 +25,7 @@ function LVS:SetNPCRelationship( NPC )
 		else
 			local D_, _ = NPC:Disposition( lvsVeh )
 
-			if D_ ~= D_NU then
+			if D_ != D_NU then
 				NPC:AddEntityRelationship( lvsVeh, D_NU )
 				NPC:ClearEnemyMemory( lvsVeh )
 			end
@@ -48,7 +48,7 @@ function LVS:SetVehicleRelationship( lvsVeh )
 		else
 			local D_, _ = NPC:Disposition( lvsVeh )
 
-			if D_ ~= D_NU then
+			if D_ != D_NU then
 				NPC:AddEntityRelationship( lvsVeh, D_NU )
 				NPC:ClearEnemyMemory( lvsVeh )
 			end
