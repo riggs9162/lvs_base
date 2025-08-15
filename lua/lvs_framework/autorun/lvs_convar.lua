@@ -33,8 +33,8 @@ end)
 if SERVER then
 	util.AddNetworkString( "lvs_admin_setconvar" )
 
-	net.Receive( "lvs_admin_setconvar", function( length, ply )
-		if not IsValid( ply ) or not ply:IsSuperAdmin() then return end
+	net.Receive( "lvs_admin_setconvar", function( length, client )
+		if not IsValid( client ) or not client:IsSuperAdmin() then return end
 
 		local ConVar = net.ReadString()
 		local Value = tonumber( net.ReadString() )

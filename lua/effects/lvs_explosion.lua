@@ -26,9 +26,9 @@ function EFFECT:Init( data )
 
 	self:Explosion( Pos, 2 )
 
-	local ply = LocalPlayer():GetViewEntity()
-	if IsValid( ply ) then
-		local delay = (Pos - ply:GetPos()):Length() / 13503.9
+	local client = LocalPlayer():GetViewEntity()
+	if IsValid( client ) then
+		local delay = (Pos - client:GetPos()):Length() / 13503.9
 		timer.Simple( delay, function()
 			sound.Play( "LVS.DYNAMIC_EXPLOSION", Pos )
 		end )

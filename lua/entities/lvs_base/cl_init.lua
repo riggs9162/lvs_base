@@ -8,9 +8,9 @@ include( "cl_boneposeparemeter.lua" )
 
 local Zoom = 0
 
-function ENT:LVSCalcFov( fov, ply )
+function ENT:LVSCalcFov( fov, client )
 
-	local TargetZoom = ply:lvsKeyDown( "ZOOM" ) and 0 or 1
+	local TargetZoom = client:lvsKeyDown( "ZOOM" ) and 0 or 1
 
 	Zoom = Zoom + (TargetZoom - Zoom) * RealFrameTime() * 10
 
@@ -19,8 +19,8 @@ function ENT:LVSCalcFov( fov, ply )
 	return newfov
 end
 
-function ENT:LVSCalcView( ply, pos, angles, fov, pod )
-	return LVS:CalcView( self, ply, pos, angles, fov, pod )
+function ENT:LVSCalcView( client, pos, angles, fov, pod )
+	return LVS:CalcView( self, client, pos, angles, fov, pod )
 end
 
 function ENT:PreDraw( flags )

@@ -12,8 +12,8 @@ hook.Add( "InitPostEntity", "!!!lvsBullshitFixer", function()
 	end
 end )
 
-local function SetDistance( vehicle, ply )
-	local iWheel = ply:GetCurrentCommand():GetMouseWheel()
+local function SetDistance( vehicle, client )
+	local iWheel = client:GetCurrentCommand():GetMouseWheel()
 
 	if iWheel == 0 or not vehicle.SetCameraDistance then return end
 
@@ -22,8 +22,8 @@ local function SetDistance( vehicle, ply )
 	vehicle:SetCameraDistance( newdist )
 end
 
-local function SetHeight( vehicle, ply )
-	local iWheel = ply:GetCurrentCommand():GetMouseWheel()
+local function SetHeight( vehicle, client )
+	local iWheel = client:GetCurrentCommand():GetMouseWheel()
 
 	if iWheel == 0 or not vehicle.SetCameraHeight then return end
 
@@ -32,27 +32,27 @@ local function SetHeight( vehicle, ply )
 	vehicle:SetCameraHeight( newdist )
 end
 
-hook.Add( "VehicleMove", "!!!!lvs_vehiclemove", function( ply, vehicle, mv )
-	if not ply.lvsGetVehicle then return end
+hook.Add( "VehicleMove", "!!!!lvs_vehiclemove", function( client, vehicle, mv )
+	if not client.lvsGetVehicle then return end
 
-	local veh = ply:lvsGetVehicle()
+	local veh = client:lvsGetVehicle()
 
 	if not IsValid( veh ) then return end
 
-	if SERVER and ply:lvsKeyDown( "VIEWDIST" ) then
-		if ply:lvsKeyDown( "VIEWHEIGHT" ) then
-			SetHeight( vehicle, ply )
+	if SERVER and client:lvsKeyDown( "VIEWDIST" ) then
+		if client:lvsKeyDown( "VIEWHEIGHT" ) then
+			SetHeight( vehicle, client )
 		else
-			SetDistance( vehicle, ply )
+			SetDistance( vehicle, client )
 		end
 	end
 
 	if CLIENT and not IsFirstTimePredicted() then return end
 
-	local KeyThirdPerson = ply:lvsKeyDown("THIRDPERSON")
+	local KeyThirdPerson = client:lvsKeyDown("THIRDPERSON")
 
-	if ply._lvsOldThirdPerson != KeyThirdPerson then
-		ply._lvsOldThirdPerson = KeyThirdPerson
+	if client._lvsOldThirdPerson != KeyThirdPerson then
+		client._lvsOldThirdPerson = KeyThirdPerson
 
 		if KeyThirdPerson and vehicle.SetThirdPersonMode then
 			vehicle:SetThirdPersonMode( not vehicle:GetThirdPersonMode() )
@@ -62,13 +62,13 @@ hook.Add( "VehicleMove", "!!!!lvs_vehiclemove", function( ply, vehicle, mv )
 	return true
 end )
 
-hook.Add("CalcMainActivity", "!!!lvs_playeranimations", function(ply)
-	if not ply.lvsGetVehicle then return end
+hook.Add("CalcMainActivity", "!!!lvs_playeranimations", function(client)
+	if not client.lvsGetVehicle then return end
 
-	local Ent = ply:lvsGetVehicle()
+	local Ent = client:lvsGetVehicle()
 
 	if IsValid( Ent ) then
-		local A,B = Ent:CalcMainActivity( ply )
+		local A,B = Ent:CalcMainActivity( client )
 
 		if A and B then
 			return A, B
@@ -76,28 +76,28 @@ hook.Add("CalcMainActivity", "!!!lvs_playeranimations", function(ply)
 	end
 end)
 
-hook.Add("UpdateAnimation", "!!!lvs_playeranimations", function( ply, velocity, maxseqgroundspeed )
-	if not ply.lvsGetVehicle then return end
+hook.Add("UpdateAnimation", "!!!lvs_playeranimations", function( client, velocity, maxseqgroundspeed )
+	if not client.lvsGetVehicle then return end
 
-	local Ent = ply:lvsGetVehicle()
+	local Ent = client:lvsGetVehicle()
 
 	if not IsValid( Ent ) then return end
 
-	return Ent:UpdateAnimation( ply, velocity, maxseqgroundspeed )
+	return Ent:UpdateAnimation( client, velocity, maxseqgroundspeed )
 end)
 
-hook.Add( "StartCommand", "!!!!LVS_grab_command", function( ply, cmd )
-	if not ply.lvsGetVehicle then return end
+hook.Add( "StartCommand", "!!!!LVS_grab_command", function( client, cmd )
+	if not client.lvsGetVehicle then return end
 
-	local veh = ply:lvsGetVehicle()
+	local veh = client:lvsGetVehicle()
 
 	if not IsValid( veh ) then return end
 
-	veh:StartCommand( ply, cmd )
+	veh:StartCommand( client, cmd )
 end )
 
-hook.Add( "CanProperty", "!!!!lvsEditPropertiesDisabler", function( ply, property, ent )
-	if ent.LVS and not ply:IsAdmin() and property == "editentity" then return false end
+hook.Add( "CanProperty", "!!!!lvsEditPropertiesDisabler", function( client, property, ent )
+	if ent.LVS and not client:IsAdmin() and property == "editentity" then return false end
 end )
 
 LVS.ToolsDisable = {
@@ -105,7 +105,7 @@ LVS.ToolsDisable = {
 	["rb655_easy_bonemerge"] = true,
 	["rb655_easy_inspector"] = true,
 }
-hook.Add( "CanTool", "!!!!lvsCanToolDisabler", function( ply, tr, toolname, tool, button )
+hook.Add( "CanTool", "!!!!lvsCanToolDisabler", function( client, tr, toolname, tool, button )
 	if LVS.ToolsDisable[ toolname ] and IsValid( tr.Entity ) and tr.Entity.LVS then return false end
 end )
 
@@ -119,7 +119,7 @@ if CLIENT then
 		if hide[ name ] then return false end
 	end
 
-	hook.Add( "LVS.PlayerEnteredVehicle", "!!!!lvs_player_enter", function( ply, veh )
+	hook.Add( "LVS.PlayerEnteredVehicle", "!!!!lvs_player_enter", function( client, veh )
 		hook.Add( "HUDShouldDraw", "!!!!lvs_hidehud", HUDShouldDrawLVS )
 
 		if not IsValid( veh ) then return end
@@ -138,7 +138,7 @@ if CLIENT then
 		cvar_mouseaim:SetInt( cvar_type:GetInt() )
 	end )
 
-	hook.Add( "LVS.PlayerLeaveVehicle", "!!!!lvs_player_exit", function( ply, veh )
+	hook.Add( "LVS.PlayerLeaveVehicle", "!!!!lvs_player_exit", function( client, veh )
 		hook.Remove( "HUDShouldDraw", "!!!!lvs_hidehud" )
 	end )
 
@@ -214,72 +214,72 @@ hook.Add( "EntityTakeDamage", "!!!_lvs_fix_vehicle_explosion_damage", function( 
 	dmginfo:SetDamage( 0 )
 end )
 
-hook.Add( "PlayerEnteredVehicle", "!!!!lvs_player_enter", function( ply, Pod )
-	local veh = ply:lvsGetVehicle()
+hook.Add( "PlayerEnteredVehicle", "!!!!lvs_player_enter", function( client, Pod )
+	local veh = client:lvsGetVehicle()
 
 	if IsValid( veh ) then
 		net.Start( "lvs_player_enterexit" )
 			net.WriteBool( true )
 			net.WriteEntity( veh )
-		net.Send( ply )
+		net.Send( client )
 
-		ply._lvsIsInVehicle = true
+		client._lvsIsInVehicle = true
 
 		if istable( veh.PlayerBoneManipulate ) then
 			local ID = Pod:lvsGetPodIndex()
 			local BoneManipulate = veh.PlayerBoneManipulate[ ID ]
 
 			if BoneManipulate then
-				ply._lvsStopBoneManipOnExit = true
-				ply:lvsStartBoneManip()
+				client._lvsStopBoneManipOnExit = true
+				client:lvsStartBoneManip()
 			end
 		end
 
 		if LVS.FreezeTeams then
-			local nTeam = ply:lvsGetAITeam()
+			local nTeam = client:lvsGetAITeam()
 
 			if veh:GetAITEAM() != nTeam then
 				veh:SetAITEAM( nTeam )
 
-				ply:PrintMessage( HUD_PRINTTALK, "[LVS] This Vehicle's AI-Team has been updated to: "..(LVS.TEAMS[ nTeam ] or "") )
+				client:PrintMessage( HUD_PRINTTALK, "[LVS] This Vehicle's AI-Team has been updated to: "..(LVS.TEAMS[ nTeam ] or "") )
 			end
 		end
 	end
 
 	if not Pod.HidePlayer then return end
 
-	ply:SetNoDraw( true )
+	client:SetNoDraw( true )
 
-	if pac then pac.TogglePartDrawing( ply, 0 ) end
+	if pac then pac.TogglePartDrawing( client, 0 ) end
 end )
 
-hook.Add( "PlayerLeaveVehicle", "!!!!lvs_player_exit", function( ply, Pod )
-	if ply._lvsIsInVehicle then
+hook.Add( "PlayerLeaveVehicle", "!!!!lvs_player_exit", function( client, Pod )
+	if client._lvsIsInVehicle then
 		net.Start( "lvs_player_enterexit" )
 			net.WriteBool( false )
-			net.WriteEntity( ply:lvsGetVehicle() )
-		net.Send( ply )
+			net.WriteEntity( client:lvsGetVehicle() )
+		net.Send( client )
 
-		ply._lvsIsInVehicle = nil
+		client._lvsIsInVehicle = nil
 
-		if ply._lvsStopBoneManipOnExit then
-			ply._lvsStopBoneManipOnExit = nil
+		if client._lvsStopBoneManipOnExit then
+			client._lvsStopBoneManipOnExit = nil
 
-			ply:lvsStopBoneManip()
+			client:lvsStopBoneManip()
 		end
 	end
 
 	if not Pod.HidePlayer then return end
 
-	ply:SetNoDraw( false )
+	client:SetNoDraw( false )
 
-	if pac then pac.TogglePartDrawing( ply, 1 ) end
+	if pac then pac.TogglePartDrawing( client, 1 ) end
 end )
 
-hook.Add( "PlayerDisconnected", "!!!!lvs_player_reset_bonemanip_client", function(ply)
-	if not ply._lvsStopBoneManipOnExit then return end
+hook.Add( "PlayerDisconnected", "!!!!lvs_player_reset_bonemanip_client", function(client)
+	if not client._lvsStopBoneManipOnExit then return end
 
-	ply._lvsStopBoneManipOnExit = nil
+	client._lvsStopBoneManipOnExit = nil
 
-	ply:lvsStopBoneManip()
+	client:lvsStopBoneManip()
 end )

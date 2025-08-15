@@ -23,13 +23,13 @@ ENT.WaterLevelPreventStart = 1
 ENT.WaterLevelAutoStop = 2
 ENT.WaterLevelDestroyAI = 2
 
-function ENT:SpawnFunction( ply, tr, ClassName )
+function ENT:SpawnFunction( client, tr, ClassName )
 
-	if ply:InVehicle() then
+	if client:InVehicle() then
 		local ent = ents.Create( ClassName )
-		ent:StoreCPPI( ply )
-		ent:SetPos( ply:GetPos() + Vector(0,0,100 + ent.SpawnNormalOffset) )
-		ent:SetAngles( Angle(0, ply:EyeAngles().y, 0 ) )
+		ent:StoreCPPI( client )
+		ent:SetPos( client:GetPos() + Vector(0,0,100 + ent.SpawnNormalOffset) )
+		ent:SetAngles( Angle(0, client:EyeAngles().y, 0 ) )
 		ent:Spawn()
 		ent:Activate()
 
@@ -38,9 +38,9 @@ function ENT:SpawnFunction( ply, tr, ClassName )
 		if not tr.Hit then return end
 
 		local ent = ents.Create( ClassName )
-		ent:StoreCPPI( ply )
+		ent:StoreCPPI( client )
 		ent:SetPos( tr.HitPos + tr.HitNormal * ent.SpawnNormalOffset )
-		ent:SetAngles( Angle(0, ply:EyeAngles().y, 0 ) )
+		ent:SetAngles( Angle(0, client:EyeAngles().y, 0 ) )
 		ent:Spawn()
 		ent:Activate()
 
@@ -164,7 +164,7 @@ end
 function ENT:OnPassengerChanged( Old, New, PodIndex )
 end
 
-function ENT:OnSwitchSeat( ply, oldpod, newpod )
+function ENT:OnSwitchSeat( client, oldpod, newpod )
 end
 
 function ENT:OnTick()
@@ -181,7 +181,7 @@ function ENT:Lock()
 	for _, Handler in pairs( self:GetDoorHandlers() ) do
 		if not IsValid( Handler ) then continue end
 
-		Handler:Close( ply )
+		Handler:Close( client )
 	end
 
 	if self:GetlvsLockedStatus() then return end
@@ -197,12 +197,12 @@ function ENT:UnLock()
 	self:EmitSound( "doors/latchunlocked1.wav" )
 end
 
-function ENT:IsUseAllowed( ply )
-	if not IsValid( ply ) then return false end
+function ENT:IsUseAllowed( client )
+	if not IsValid( client ) then return false end
 
-	if (ply._lvsNextUse or 0) > CurTime() then return false end
+	if (client._lvsNextUse or 0) > CurTime() then return false end
 
-	if self:GetlvsLockedStatus() or (LVS.TeamPassenger and ((self:GetAITEAM() != ply:lvsGetAITeam()) and ply:lvsGetAITeam() != 0 and self:GetAITEAM() != 0)) then
+	if self:GetlvsLockedStatus() or (LVS.TeamPassenger and ((self:GetAITEAM() != client:lvsGetAITeam()) and client:lvsGetAITeam() != 0 and self:GetAITEAM() != 0)) then
 		self:EmitSound( "doors/default_locked.wav" )
 
 		return false
@@ -211,44 +211,44 @@ function ENT:IsUseAllowed( ply )
 	return true
 end
 
-function ENT:Use( ply )
-	if not self:IsUseAllowed( ply ) then return end
+function ENT:Use( client )
+	if not self:IsUseAllowed( client ) then return end
 
 	if not istable( self._DoorHandlers ) then
-		self:SetPassenger( ply )
+		self:SetPassenger( client )
 
 		return
 	end
 
-	if ply:KeyDown( IN_SPEED ) then return end
+	if client:KeyDown( IN_SPEED ) then return end
 
-	local Handler = self:GetDoorHandler( ply )
+	local Handler = self:GetDoorHandler( client )
 
 	if not IsValid( Handler ) then
-		if self:HasDoorSystem() and ply:GetMoveType() == MOVETYPE_WALK then
+		if self:HasDoorSystem() and client:GetMoveType() == MOVETYPE_WALK then
 			return
 		end
 
-		self:SetPassenger( ply )
+		self:SetPassenger( client )
 
 		return
 	end
 
 	local Pod = Handler:GetLinkedSeat()
 
-	if not IsValid( Pod ) then Handler:Use( ply ) return end
+	if not IsValid( Pod ) then Handler:Use( client ) return end
 
-	if not Handler:IsOpen() then Handler:Open( ply ) return end
+	if not Handler:IsOpen() then Handler:Open( client ) return end
 
 	if Handler:IsOpen() then
-		Handler:Close( ply )
+		Handler:Close( client )
 	else
-		Handler:OpenAndClose( ply )
+		Handler:OpenAndClose( client )
 	end
 
-	if ply:KeyDown( IN_WALK ) then
+	if client:KeyDown( IN_WALK ) then
 
-		self:SetPassenger( ply )
+		self:SetPassenger( client )
 
 		return
 	end
@@ -257,10 +257,10 @@ function ENT:Use( ply )
 
 	if Pod != self:GetDriverSeat() then
 		if IsValid( Pod:GetDriver() ) then
-			self:SetPassenger( ply )
+			self:SetPassenger( client )
 		else
-			ply:EnterVehicle( Pod )
-			self:AlignView( ply )
+			client:EnterVehicle( Pod )
+			self:AlignView( client )
 
 			hook.Run( "LVS.UpdateRelationship", self )
 		end
@@ -269,24 +269,24 @@ function ENT:Use( ply )
 	end
 
 	if self:GetAI() then
-		self:SetPassenger( ply )
+		self:SetPassenger( client )
 
 		return
 	end
 
 	if IsValid( Pod:GetDriver() ) then
-		self:SetPassenger( ply )
+		self:SetPassenger( client )
 
 		return
 	end
 
-	if hook.Run( "LVS.CanPlayerDrive", ply, self ) != false then
-		ply:EnterVehicle( Pod )
-		self:AlignView( ply )
+	if hook.Run( "LVS.CanPlayerDrive", client, self ) != false then
+		client:EnterVehicle( Pod )
+		self:AlignView( client )
 
 		hook.Run( "LVS.UpdateRelationship", self )
 	else
-		hook.Run( "LVS.OnPlayerCannotDrive", ply, self )
+		hook.Run( "LVS.OnPlayerCannotDrive", client, self )
 	end
 end
 

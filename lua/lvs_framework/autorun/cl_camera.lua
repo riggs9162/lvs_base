@@ -1,5 +1,5 @@
 
-function LVS:CalcView( vehicle, ply, pos, angles, fov, pod )
+function LVS:CalcView( vehicle, client, pos, angles, fov, pod )
 	local view = {}
 	view.origin = pos
 	view.angles = angles
@@ -39,15 +39,15 @@ function LVS:CalcView( vehicle, ply, pos, angles, fov, pod )
 	return view
 end
 
-hook.Add( "CalcView", "!!!!LVS_calcview", function(ply, pos, angles, fov)
-	if ply:GetViewEntity() != ply then return end
+hook.Add( "CalcView", "!!!!LVS_calcview", function(client, pos, angles, fov)
+	if client:GetViewEntity() != client then return end
 
-	local pod = ply:GetVehicle()
-	local vehicle = ply:lvsGetVehicle()
+	local pod = client:GetVehicle()
+	local vehicle = client:lvsGetVehicle()
 
 	if not IsValid( pod ) or not IsValid( vehicle ) then return end
 
-	local newfov = vehicle:LVSCalcFov( fov, ply )
+	local newfov = vehicle:LVSCalcFov( fov, client )
 
 	local base = pod:lvsGetWeapon()
 
@@ -55,17 +55,17 @@ hook.Add( "CalcView", "!!!!LVS_calcview", function(ply, pos, angles, fov)
 		local weapon = base:GetActiveWeapon()
 
 		if weapon and weapon.CalcView then
-			return ply:lvsSetView( weapon.CalcView( base, ply, pos, angles, newfov, pod ) )
+			return client:lvsSetView( weapon.CalcView( base, client, pos, angles, newfov, pod ) )
 		else
-			return ply:lvsSetView( vehicle:LVSCalcView( ply, pos, angles, newfov, pod ) )
+			return client:lvsSetView( vehicle:LVSCalcView( client, pos, angles, newfov, pod ) )
 		end
 	else
 		local weapon = vehicle:GetActiveWeapon()
 
 		if weapon and weapon.CalcView then
-			return ply:lvsSetView( weapon.CalcView( vehicle, ply, pos, angles, newfov, pod ) )
+			return client:lvsSetView( weapon.CalcView( vehicle, client, pos, angles, newfov, pod ) )
 		else
-			return ply:lvsSetView( vehicle:LVSCalcView( ply, pos, angles, newfov, pod ) )
+			return client:lvsSetView( vehicle:LVSCalcView( client, pos, angles, newfov, pod ) )
 		end
 	end
 end )

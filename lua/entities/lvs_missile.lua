@@ -70,13 +70,13 @@ if SERVER then
 
 		self:SetTarget( Target )
 
-		local ply = self:GetAttacker()
+		local client = self:GetAttacker()
 
-		if not IsValid( ply ) or not ply:IsPlayer() then return end
+		if not IsValid( client ) or not client:IsPlayer() then return end
 
 		net.Start( "lvs_missile_hud", true )
 			net.WriteEntity( self )
-		net.Send( ply )
+		net.Send( client )
 	end
 
 	function ENT:SetEntityFilter( filter )
@@ -137,14 +137,14 @@ if SERVER then
 		return Target:GetPos()
 	end
 
-	function ENT:SpawnFunction( ply, tr, ClassName )
+	function ENT:SpawnFunction( client, tr, ClassName )
 
 		local ent = ents.Create( ClassName )
-		ent:SetPos( ply:GetShootPos() )
-		ent:SetAngles( ply:EyeAngles() )
+		ent:SetPos( client:GetShootPos() )
+		ent:SetAngles( client:EyeAngles() )
 		ent:Spawn()
 		ent:Activate()
-		ent:SetAttacker( ply )
+		ent:SetAttacker( client )
 		ent:Enable()
 
 		return ent

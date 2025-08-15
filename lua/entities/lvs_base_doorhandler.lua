@@ -53,13 +53,13 @@ function ENT:IsOpen()
 	return self:GetActive()
 end
 
-function ENT:InRange( ply, Range )
+function ENT:InRange( client, Range )
 	local boxOrigin = self:GetPos()
 	local boxAngles = self:GetAngles()
 	local boxMins = self:GetMins()
 	local boxMaxs = self:GetMaxs()
 
-	local HitPos, _, _ = util.IntersectRayWithOBB( ply:GetShootPos(), ply:GetAimVector() * Range, boxOrigin, boxAngles, boxMins, boxMaxs )
+	local HitPos, _, _ = util.IntersectRayWithOBB( client:GetShootPos(), client:GetAimVector() * Range, boxOrigin, boxAngles, boxMins, boxMaxs )
 
 	return isvector( HitPos )
 end
@@ -77,20 +77,20 @@ if SERVER then
 
 	util.AddNetworkString( "lvs_doorhandler_interact" )
 
-	net.Receive( "lvs_doorhandler_interact", function( length, ply )
-		if not IsValid( ply ) then return end
+	net.Receive( "lvs_doorhandler_interact", function( length, client )
+		if not IsValid( client ) then return end
 
 		local ent = net.ReadEntity()
 
-		if not IsValid( ent ) or not ent._UseTargetAllowed or not ent.UseRange or ply:InVehicle() then return end
+		if not IsValid( ent ) or not ent._UseTargetAllowed or not ent.UseRange or client:InVehicle() then return end
 
 		local Range = ent.UseRange * 2
 
-		if (ply:GetPos() - ent:GetPos()):Length() > Range then return end
+		if (client:GetPos() - ent:GetPos()):Length() > Range then return end
 
-		if not ent:InRange( ply, Range ) then return end
+		if not ent:InRange( client, Range ) then return end
 
-		ent:Use( ply, ply )
+		ent:Use( client, client )
 	end)
 
 	function ENT:LinkToSeat( ent )
@@ -116,37 +116,37 @@ if SERVER then
 		debugoverlay.Cross( self:GetPos(), 15, 5, Color( 255, 223, 127 ) )
 	end
 
-	function ENT:Use( ply )
-		if not IsValid( ply ) then return end
+	function ENT:Use( client )
+		if not IsValid( client ) then return end
 
 		local Base = self:GetBase()
 
 		if not IsValid( Base ) then return end
 
-		if not Base:IsUseAllowed( ply ) then return end
+		if not Base:IsUseAllowed( client ) then return end
 
 		if self:IsOpen() then
-			self:Close( ply )
+			self:Close( client )
 		else
-			self:Open( ply )
+			self:Open( client )
 		end
 	end
 
-	function ENT:OnOpen( ply )
+	function ENT:OnOpen( client )
 	end
 
-	function ENT:OnClosed( ply )
+	function ENT:OnClosed( client )
 	end
 
-	function ENT:OpenAndClose( ply )
-		self:Open( ply )
+	function ENT:OpenAndClose( client )
+		self:Open( client )
 
 		self._PreventClosing = true
 
 		timer.Simple(0.5, function()
 			if not IsValid( self ) then return end
 
-			self:Close( ply )
+			self:Close( client )
 
 			self._PreventClosing = false
 		end )
@@ -167,7 +167,7 @@ if SERVER then
 		return base:GetBodygroup( self._BodyGroupDisable ) == self._BodySubGroupDisable
 	end
 
-	function ENT:Open( ply )
+	function ENT:Open( client )
 		if self:IsOpen() then return end
 
 		self:SetActive( true )
@@ -176,7 +176,7 @@ if SERVER then
 
 		if self:IsBodyGroupDisabled() then return end
 
-		self:OnOpen( ply )
+		self:OnOpen( client )
 
 		local snd = self:GetSoundOpen()
 
@@ -185,10 +185,10 @@ if SERVER then
 		self:EmitSound( snd )
 	end
 
-	function ENT:Close( ply )
+	function ENT:Close( client )
 		if not self:IsOpen() then
 			if self:IsBodyGroupDisabled() then
-				self:Open( ply )
+				self:Open( client )
 			end
 
 			return
@@ -200,7 +200,7 @@ if SERVER then
 		self:SetMins( self:GetMinsClosed() )
 		self:SetMaxs( self:GetMaxsClosed() )
 
-		self:OnClosed( ply )
+		self:OnClosed( client )
 
 		local snd = self:GetSoundClose()
 
@@ -318,16 +318,16 @@ ENT.ColorTransBlack = Color(0,0,0,150)
 ENT.OutlineThickness = Vector(0.5,0.5,0.5)
 
 function ENT:DrawTranslucent()
-	local ply = LocalPlayer()
+	local client = LocalPlayer()
 
-	if not IsValid( ply ) or ply:InVehicle() or not ply:KeyDown( IN_SPEED ) then return end
+	if not IsValid( client ) or client:InVehicle() or not client:KeyDown( IN_SPEED ) then return end
 
-	local InRange = self:InRange( ply, self.UseRange )
+	local InRange = self:InRange( client, self.UseRange )
 
 	if InRange then
 		local EntTable = self:GetTable()
 
-		local Use = ply:KeyDown( IN_USE )
+		local Use = client:KeyDown( IN_USE )
 
 		if EntTable.old_Use != Use then
 			EntTable.old_Use = Use

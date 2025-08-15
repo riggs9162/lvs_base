@@ -66,11 +66,11 @@ function EFFECT:Init( data )
 
 	local Pos = self.Pos
 	local Dist = (traceWater.HitPos - Pos):Length()
-	local ply = LocalPlayer():GetViewEntity()
+	local client = LocalPlayer():GetViewEntity()
 
-	if not IsValid( ply ) then return end
+	if not IsValid( client ) then return end
 
-	local delay = (Pos - ply:GetPos()):Length() / 13503.9
+	local delay = (Pos - client:GetPos()):Length() / 13503.9
 
 	if traceWater.Hit and Dist > 150 then
 		timer.Simple( delay, function()

@@ -311,8 +311,8 @@ function ENT:DamageThink()
 	end
 end
 
-function ENT:HurtPlayer( ply, dmg, attacker, inflictor )
-	if not IsValid( ply ) then return end
+function ENT:HurtPlayer( client, dmg, attacker, inflictor )
+	if not IsValid( client ) then return end
 
 	if not IsValid( attacker ) then
 		attacker = game.GetWorld()
@@ -328,7 +328,7 @@ function ENT:HurtPlayer( ply, dmg, attacker, inflictor )
 	dmginfo:SetInflictor( inflictor )
 	dmginfo:SetDamageType( DMG_DIRECT )
 
-	ply:TakeDamageInfo( dmginfo )
+	client:TakeDamageInfo( dmginfo )
 end
 
 function ENT:Explode()

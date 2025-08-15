@@ -105,16 +105,16 @@ function ENT:AIGetTarget( viewcone )
 	local TargetDistance = 60000
 
 	if not LVS.IgnorePlayers then
-		for _, ply in pairs( player.GetAll() ) do
-			if not ply:Alive() then continue end
+		for _, client in pairs( player.GetAll() ) do
+			if not client:Alive() then continue end
 
-			if ply:IsFlagSet( FL_NOTARGET ) then continue end
+			if client:IsFlagSet( FL_NOTARGET ) then continue end
 
-			local Dist = (ply:GetPos() - MyPos):Length()
+			local Dist = (client:GetPos() - MyPos):Length()
 
 			if Dist > TargetDistance then continue end
 
-			local Veh = ply:lvsGetVehicle()
+			local Veh = client:lvsGetVehicle()
 
 			if IsValid( Veh ) then
 				if self:AICanSee( Veh ) and Veh != self then
@@ -132,15 +132,15 @@ function ENT:AIGetTarget( viewcone )
 					end
 				end
 			else
-				local HisTeam = ply:lvsGetAITeam()
-				if not ply:IsLineOfSightClear( self ) or HisTeam == 0 then continue end
+				local HisTeam = client:lvsGetAITeam()
+				if not client:IsLineOfSightClear( self ) or HisTeam == 0 then continue end
 
 				if self.AISearchCone then
-					if not self:AITargetInFront( ply, self.AISearchCone ) then continue end
+					if not self:AITargetInFront( client, self.AISearchCone ) then continue end
 				end
 
 				if HisTeam != MyTeam or HisTeam == 3 then
-					ClosestTarget = ply
+					ClosestTarget = client
 					TargetDistance = Dist
 				end
 			end

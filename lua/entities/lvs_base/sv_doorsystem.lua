@@ -52,11 +52,11 @@ function ENT:AddDoorHandler( poseparameter, pos, ang, mins, maxs, openmins, open
 	return Handler
 end
 
-function ENT:GetDoorHandler( ply )
-	if not IsValid( ply ) or not istable( self._DoorHandlers ) then return NULL end
+function ENT:GetDoorHandler( client )
+	if not IsValid( client ) or not istable( self._DoorHandlers ) then return NULL end
 
-	local ShootPos = ply:GetShootPos()
-	local AimVector = ply:GetAimVector()
+	local ShootPos = client:GetShootPos()
+	local AimVector = client:GetAimVector()
 
 	local radius = 99999999999
 	local target = NULL

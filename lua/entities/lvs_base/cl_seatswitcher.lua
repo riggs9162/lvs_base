@@ -2,14 +2,14 @@
 ENT.IconVehicleLocked = Material( "lvs/locked.png" )
 
 LVS:AddHudEditor( "SeatSwitcher", ScrW() - 360, 10,  350, 60, 350, 60, "SEAT SWITCHER",
-	function( self, vehicle, X, Y, W, H, ScrX, ScrY, ply )
+	function( self, vehicle, X, Y, W, H, ScrX, ScrY, client )
 		if not vehicle.LVSHudPaintSeatSwitcher then return end
 
-		vehicle:LVSHudPaintSeatSwitcher( X, Y, W, 30, ScrX, ScrY, ply )
+		vehicle:LVSHudPaintSeatSwitcher( X, Y, W, 30, ScrX, ScrY, client )
 	end
 )
 
-function ENT:LVSHudPaintSeatSwitcher( X, Y, w, h, ScrX, ScrY, ply )
+function ENT:LVSHudPaintSeatSwitcher( X, Y, w, h, ScrX, ScrY, client )
 	local pSeats = table.Copy( self:GetPassengerSeats() )
 	local SeatCount = table.Count( pSeats )
 
@@ -22,7 +22,7 @@ function ENT:LVSHudPaintSeatSwitcher( X, Y, w, h, ScrX, ScrY, ply )
 	local HasAI = self:GetAI()
 	local HasAIGunners = self:GetAIGunners()
 
-	local MySeat = ply:GetVehicle():lvsGetPodIndex()
+	local MySeat = client:GetVehicle():lvsGetPodIndex()
 
 	local Passengers = {}
 	for _, player in pairs( player.GetAll() ) do
@@ -48,34 +48,34 @@ function ENT:LVSHudPaintSeatSwitcher( X, Y, w, h, ScrX, ScrY, ply )
 		end
 	end
 
-	ply.SwitcherTime = ply.SwitcherTime or 0
-	ply._lvsoldPassengers = ply._lvsoldPassengers or {}
+	client.SwitcherTime = client.SwitcherTime or 0
+	client._lvsoldPassengers = client._lvsoldPassengers or {}
 
 	local Time = CurTime()
 	for k, v in pairs( Passengers ) do
-		if ply._lvsoldPassengers[k] != v then
-			ply._lvsoldPassengers[k] = v
-			ply.SwitcherTime = Time + 2
+		if client._lvsoldPassengers[k] != v then
+			client._lvsoldPassengers[k] = v
+			client.SwitcherTime = Time + 2
 		end
 	end
-	for k, v in pairs( ply._lvsoldPassengers ) do
+	for k, v in pairs( client._lvsoldPassengers ) do
 		if not Passengers[k] then
-			ply._lvsoldPassengers[k] = nil
-			ply.SwitcherTime = Time + 2
+			client._lvsoldPassengers[k] = nil
+			client.SwitcherTime = Time + 2
 		end
 	end
 	for _, v in pairs( LVS.pSwitchKeysInv ) do
 		if input.IsKeyDown(v) then
-			ply.SwitcherTime = Time + 2
+			client.SwitcherTime = Time + 2
 		end
 	end
 
-	local Hide = ply.SwitcherTime > Time
+	local Hide = client.SwitcherTime > Time
 
-	ply.smHider = ply.smHider and (ply.smHider + ((Hide and 1 or 0) - ply.smHider) * RealFrameTime() * 15) or 0
+	client.smHider = client.smHider and (client.smHider + ((Hide and 1 or 0) - client.smHider) * RealFrameTime() * 15) or 0
 
-	local Alpha1 = 135 + 110 * ply.smHider
-	local HiderOffset = 270 * ply.smHider
+	local Alpha1 = 135 + 110 * client.smHider
+	local HiderOffset = 270 * client.smHider
 	local xPos = w - 35
 	local yPos = Y - (SeatCount + 1) * 30 + h + 5
 
@@ -103,9 +103,9 @@ function ENT:LVSHudPaintSeatSwitcher( X, Y, w, h, ScrX, ScrY, ply )
 		if I <= 0 then continue end
 
 		if I == MySeat then
-			draw.RoundedBox(5, X + xPos - xHider, yPos + I * 30, 35 + HiderOffset, 25, Color(LVS.ThemeColor.r, LVS.ThemeColor.g, LVS.ThemeColor.b,100 + 50 * ply.smHider) )
+			draw.RoundedBox(5, X + xPos - xHider, yPos + I * 30, 35 + HiderOffset, 25, Color(LVS.ThemeColor.r, LVS.ThemeColor.g, LVS.ThemeColor.b,100 + 50 * client.smHider) )
 		else
-			draw.RoundedBox(5, X + xPos - xHider, yPos + I * 30, 35 + HiderOffset, 25, Color(0,0,0,100 + 50 * ply.smHider) )
+			draw.RoundedBox(5, X + xPos - xHider, yPos + I * 30, 35 + HiderOffset, 25, Color(0,0,0,100 + 50 * client.smHider) )
 		end
 
 		if Hide then

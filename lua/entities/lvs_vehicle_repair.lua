@@ -11,7 +11,7 @@ ENT.Spawnable		= true
 ENT.AdminOnly		= false
 
 if SERVER then
-	function ENT:SpawnFunction( ply, tr, ClassName )
+	function ENT:SpawnFunction( client, tr, ClassName )
 		if not tr.Hit then return end
 
 		local ent = ents.Create( ClassName )
@@ -88,18 +88,18 @@ if CLIENT then
 	local FrameMat = Material( "lvs/3d2dmats/frame.png" )
 	local RepairMat = Material( "lvs/3d2dmats/repair.png" )
 	function ENT:Draw()
-		local ply = LocalPlayer()
+		local client = LocalPlayer()
 		local Small = false
 
-		if IsValid( ply ) and not IsValid( ply:lvsGetVehicle() ) then
+		if IsValid( client ) and not IsValid( client:lvsGetVehicle() ) then
 			self:DrawModel()
 
 			Small = true
 
 			if GetConVarNumber( "cl_draweffectrings" ) == 0 then return end
 
-			local ply = LocalPlayer()
-			local wep = ply:GetActiveWeapon()
+			local client = LocalPlayer()
+			local wep = client:GetActiveWeapon()
 
 			if not IsValid( wep ) then return end
 

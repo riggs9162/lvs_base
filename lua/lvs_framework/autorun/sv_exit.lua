@@ -1,20 +1,20 @@
 
-hook.Add( "PlayerUse", "!!!LVS_FIX_RE_ENTER", function( ply, ent )
-	if ent.LVS and (ply._lvsNextUse or 0) > CurTime() then return false end
+hook.Add( "PlayerUse", "!!!LVS_FIX_RE_ENTER", function( client, ent )
+	if ent.LVS and (client._lvsNextUse or 0) > CurTime() then return false end
 end )
 
-hook.Add( "PlayerLeaveVehicle", "!!LVS_Exit", function( ply, Pod )
-	if not ply:IsPlayer() or not IsValid( Pod ) then return end
+hook.Add( "PlayerLeaveVehicle", "!!LVS_Exit", function( client, Pod )
+	if not client:IsPlayer() or not IsValid( Pod ) then return end
 
 	local Vehicle = Pod:lvsGetVehicle()
 
 	if not IsValid( Vehicle ) then return end
 
 	if not LVS.FreezeTeams then
-		ply:lvsSetAITeam( Vehicle:GetAITEAM() )
+		client:lvsSetAITeam( Vehicle:GetAITEAM() )
 	end
 
-	ply._lvsNextUse = CurTime() + 0.25
+	client._lvsNextUse = CurTime() + 0.25
 
 	hook.Run( "LVS.UpdateRelationship", Vehicle )
 
@@ -22,14 +22,14 @@ hook.Add( "PlayerLeaveVehicle", "!!LVS_Exit", function( ply, Pod )
 	local vel = Vehicle:GetVelocity()
 	local radius = Vehicle:BoundingRadius()
 
-	local mins, maxs = ply:GetHull()
+	local mins, maxs = client:GetHull()
 
 	local PosCenter = Pod:OBBCenter()
 	local StartPos = Pod:LocalToWorld( PosCenter )
 
-	local FilterPlayer = { ply }
+	local FilterPlayer = { client }
 	local Filter = table.Copy( Vehicle:GetCrosshairFilterEnts() )
-	table.insert( Filter, ply )
+	table.insert( Filter, client )
 
 	local zOffset = 15
 	local ValidPositions = {}
@@ -149,6 +149,6 @@ hook.Add( "PlayerLeaveVehicle", "!!LVS_Exit", function( ply, Pod )
 	ViewAngles.p = 0
 	ViewAngles.r = 0
 
-	ply:SetPos( ExitPos )
-	ply:SetEyeAngles( ViewAngles )
+	client:SetPos( ExitPos )
+	client:SetEyeAngles( ViewAngles )
 end )

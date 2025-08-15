@@ -2,11 +2,11 @@
 ENT.DriverActiveSound = "vehicles/atv_ammo_close.wav"
 ENT.DriverInActiveSound = "vehicles/atv_ammo_open.wav"
 
-function ENT:AlignView( ply, SetZero )
-	if not IsValid( ply ) then return end
+function ENT:AlignView( client, SetZero )
+	if not IsValid( client ) then return end
 
 	timer.Simple( 0, function()
-		if not IsValid( ply ) or not IsValid( self ) then return end
+		if not IsValid( client ) or not IsValid( self ) then return end
 		local Ang = Angle(0,90,0)
 
 		if not SetZero then
@@ -14,7 +14,7 @@ function ENT:AlignView( ply, SetZero )
 			Ang.r = 0
 		end
 
-		ply:SetEyeAngles( Ang )
+		client:SetEyeAngles( Ang )
 	end)
 end
 
@@ -53,16 +53,16 @@ function ENT:HandleActive()
 	end
 end
 
-function ENT:SetPassenger( ply )
-	if not IsValid( ply ) then return end
+function ENT:SetPassenger( client )
+	if not IsValid( client ) then return end
 
 	local AI = self:GetAI()
 	local DriverSeat = self:GetDriverSeat()
-	local AllowedToBeDriver = hook.Run( "LVS.CanPlayerDrive", ply, self ) != false
+	local AllowedToBeDriver = hook.Run( "LVS.CanPlayerDrive", client, self ) != false
 
-	if IsValid( DriverSeat ) and not IsValid( DriverSeat:GetDriver() ) and not ply:KeyDown( IN_WALK ) and not AI and AllowedToBeDriver then
-		ply:EnterVehicle( DriverSeat )
-		self:AlignView( ply )
+	if IsValid( DriverSeat ) and not IsValid( DriverSeat:GetDriver() ) and not client:KeyDown( IN_WALK ) and not AI and AllowedToBeDriver then
+		client:EnterVehicle( DriverSeat )
+		self:AlignView( client )
 
 		hook.Run( "LVS.UpdateRelationship", self )
 	else
@@ -73,7 +73,7 @@ function ENT:SetPassenger( ply )
 			if not IsValid( v ) or IsValid( v:GetDriver() ) then continue end
 			if v:GetNWInt( "pPodIndex" ) == -1 then continue end
 
-			local cDist = (v:GetPos() - ply:GetPos()):Length()
+			local cDist = (v:GetPos() - client:GetPos()):Length()
 
 			if cDist < Dist then
 				Seat = v
@@ -82,20 +82,20 @@ function ENT:SetPassenger( ply )
 		end
 
 		if IsValid( Seat ) then
-			ply:EnterVehicle( Seat )
-			self:AlignView( ply, true )
+			client:EnterVehicle( Seat )
+			self:AlignView( client, true )
 
 			hook.Run( "LVS.UpdateRelationship", self )
 		else
 			if IsValid( DriverSeat ) then
 				if not IsValid( self:GetDriver() ) and not AI then
 					if AllowedToBeDriver then
-						ply:EnterVehicle( DriverSeat )
-						self:AlignView( ply )
+						client:EnterVehicle( DriverSeat )
+						self:AlignView( client )
 
 						hook.Run( "LVS.UpdateRelationship", self )
 					else
-						hook.Run( "LVS.OnPlayerCannotDrive", ply, self )
+						hook.Run( "LVS.OnPlayerCannotDrive", client, self )
 					end
 				end
 			else

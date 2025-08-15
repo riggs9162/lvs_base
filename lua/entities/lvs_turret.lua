@@ -101,12 +101,12 @@ function ENT:GetCrosshairFilterEnts()
 	return self.CrosshairFilterEnts
 end
 
-function ENT:SpawnFunction( ply, tr, ClassName )
+function ENT:SpawnFunction( client, tr, ClassName )
 
 	if not tr.Hit then return end
 
 	local ent = ents.Create( ClassName )
-	ent.Attacker = ply
+	ent.Attacker = client
 	ent:SetPos( tr.HitPos + tr.HitNormal * 5 )
 	ent:Spawn()
 	ent:Activate()

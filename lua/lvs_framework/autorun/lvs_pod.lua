@@ -85,16 +85,16 @@ if CLIENT then
 	end
 
 	net.Receive( "lvs_select_weapon", function( length)
-		local ply = LocalPlayer()
-		local vehicle = ply:lvsGetVehicle()
+		local client = LocalPlayer()
+		local vehicle = client:lvsGetVehicle()
 
-		if not IsValid( vehicle ) or vehicle:GetDriver() != ply then return end
+		if not IsValid( vehicle ) or vehicle:GetDriver() != client then return end
 
 		vehicle._SelectActiveTime = CurTime() + 2
 	end)
 
 
-	net.Receive( "lvs_camera", function( length, ply )
+	net.Receive( "lvs_camera", function( length, client )
 		local pod = net.ReadEntity()
 
 		if not IsValid( pod ) then return end
@@ -116,13 +116,13 @@ end
 util.AddNetworkString( "lvs_select_weapon" )
 util.AddNetworkString( "lvs_camera" )
 
-net.Receive( "lvs_select_weapon", function( length, ply )
-	if not IsValid( ply ) then return end
+net.Receive( "lvs_select_weapon", function( length, client )
+	if not IsValid( client ) then return end
 
 	local ID = net.ReadInt( 5 )
 	local Increment = net.ReadBool()
 
-	local base = ply:lvsGetWeaponHandler()
+	local base = client:lvsGetWeaponHandler()
 
 	if not IsValid( base ) then return end
 
@@ -133,8 +133,8 @@ net.Receive( "lvs_select_weapon", function( length, ply )
 	end
 end)
 
-net.Receive( "lvs_camera", function( length, ply )
-	if not IsValid( ply ) then return end
+net.Receive( "lvs_camera", function( length, client )
+	if not IsValid( client ) then return end
 
 	local pod = net.ReadEntity()
 
@@ -143,7 +143,7 @@ net.Receive( "lvs_camera", function( length, ply )
 	net.Start("lvs_camera")
 		net.WriteEntity( pod )
 		net.WriteFloat( pod:GetCameraHeight() )
-	net.Send( ply )
+	net.Send( client )
 end)
 
 function meta:SetCameraHeight( newheight )
@@ -164,7 +164,7 @@ function meta:lvsAddWeapon( ID )
 
 	if not IsValid( weapon ) then return NULL end
 
-	weapon:SetPos( self:LocalToWorld( Vector(0,0,33.182617) ) ) -- location exactly where ply:GetShootPos() is. This will make AI-Tracing easier.
+	weapon:SetPos( self:LocalToWorld( Vector(0,0,33.182617) ) ) -- location exactly where client:GetShootPos() is. This will make AI-Tracing easier.
 	weapon:SetAngles( self:LocalToWorldAngles( Angle(0,90,0) ) )
 	weapon:SetOwner( self )
 	weapon:Spawn()

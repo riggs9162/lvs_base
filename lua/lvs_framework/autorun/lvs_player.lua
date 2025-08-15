@@ -154,15 +154,15 @@ local IS_MOUSE_ENUM = {
 	[MOUSE_WHEEL_DOWN] = true,
 }
 
-local function GetInput( ply, name )
+local function GetInput( client, name )
 	if SERVER then
-		if not ply._lvsKeyDown then
-			ply._lvsKeyDown = {}
+		if not client._lvsKeyDown then
+			client._lvsKeyDown = {}
 		end
 
-		return ply._lvsKeyDown[ name ] == true
+		return client._lvsKeyDown[ name ] == true
 	else
-		local Key = ply:lvsGetControls()[ name ] or 0
+		local Key = client:lvsGetControls()[ name ] or 0
 
 		if IS_MOUSE_ENUM[ Key ] then
 			return input.IsMouseDown( Key )
@@ -219,9 +219,9 @@ if CLIENT then
 	end
 
 	net.Receive( "lvs_buildcontrols", function( len )
-		local ply = LocalPlayer()
-		if not IsValid( ply ) then return end
-		ply:lvsBuildControls()
+		local client = LocalPlayer()
+		if not IsValid( client ) then return end
+		client:lvsBuildControls()
 	end )
 
 	local OldVisible = false
@@ -231,23 +231,23 @@ if CLIENT then
 		if Visible != OldVisible then
 			OldVisible = Visible
 
-			local ply = LocalPlayer()
+			local client = LocalPlayer()
 
-			if not IsValid( ply ) then return end
+			if not IsValid( client ) then return end
 
 			if Visible then
-				ply:lvsSetInputDisabled( true )
+				client:lvsSetInputDisabled( true )
 			else
-				ply:lvsSetInputDisabled( false )
+				client:lvsSetInputDisabled( false )
 			end
 		end
 	end
 
-	hook.Add( "LVS.PlayerEnteredVehicle", "!!!!!lvs_keyblocker_enable", function( ply, veh )
+	hook.Add( "LVS.PlayerEnteredVehicle", "!!!!!lvs_keyblocker_enable", function( client, veh )
 		hook.Add("PostDrawHUD", "!!!lvs_keyblocker", KeyBlocker )
 	end )
 
-	hook.Add( "LVS.PlayerLeaveVehicle", "!!!!!lvs_keyblocker_disable", function( ply, veh )
+	hook.Add( "LVS.PlayerLeaveVehicle", "!!!!!lvs_keyblocker_disable", function( client, veh )
 		hook.Remove("PostDrawHUD", "!!!lvs_keyblocker" )
 	end )
 
@@ -262,14 +262,14 @@ if CLIENT then
 
 		players_bonemanip[ id ] = nil
 
-		local ply = Entity( id )
+		local client = Entity( id )
 
-		if not IsValid( ply ) then return end
+		if not IsValid( client ) then return end
 
 		local angle_zero = Angle(0,0,0)
 
-		for i = 0, (ply:GetBoneCount() - 1) do
-			ply:ManipulateBoneAngles( i, angle_zero )
+		for i = 0, (client:GetBoneCount() - 1) do
+			client:ManipulateBoneAngles( i, angle_zero )
 		end
 	end
 
@@ -288,23 +288,23 @@ if CLIENT then
 
 	hook.Add( "Think", "!!!!!lvs_player_bonemanip", function()
 		for EntID, _ in pairs( players_bonemanip ) do
-			local ply = Entity( EntID )
+			local client = Entity( EntID )
 
-			if not IsValid( ply ) or not ply:IsPlayer() then continue end
+			if not IsValid( client ) or not client:IsPlayer() then continue end
 
-			local Pod = ply:GetVehicle()
-			local vehicle = ply:lvsGetVehicle()
+			local Pod = client:GetVehicle()
+			local vehicle = client:lvsGetVehicle()
 
 			if not IsValid( Pod ) or not IsValid( vehicle ) then return end
 
-			local BoneManipulate = vehicle:GetPlayerBoneManipulation( ply, Pod:lvsGetPodIndex() )
+			local BoneManipulate = vehicle:GetPlayerBoneManipulation( client, Pod:lvsGetPodIndex() )
 
 			for name, ang in pairs( BoneManipulate ) do
-				local bone = ply:LookupBone( name )
+				local bone = client:LookupBone( name )
 
 				if not bone then continue end
 
-				ply:ManipulateBoneAngles( bone, ang )
+				client:ManipulateBoneAngles( bone, ang )
 			end
 		end
 	end )
@@ -329,10 +329,10 @@ function meta:lvsStopBoneManip()
 	net.Broadcast()
 end
 
-net.Receive( "lvs_buildcontrols", function( len, ply )
-	if not IsValid( ply ) then return end
+net.Receive( "lvs_buildcontrols", function( len, client )
+	if not IsValid( client ) then return end
 
-	ply:lvsSetInputDisabled( net.ReadBool() )
+	client:lvsSetInputDisabled( net.ReadBool() )
 end )
 
 function meta:lvsSetInput( name, value )
@@ -360,37 +360,37 @@ function meta:lvsSetAITeam( nTeam )
 	self:SetNWInt( "lvsAITeam", nTeam )
 end
 
-hook.Add( "PlayerButtonUp", "!!!lvsButtonUp", function( ply, button )
-	for _, KeyBind in pairs( ply:lvsGetControls() ) do
+hook.Add( "PlayerButtonUp", "!!!lvsButtonUp", function( client, button )
+	for _, KeyBind in pairs( client:lvsGetControls() ) do
 		local KeyTBL = KeyBind[ button ]
 
 		if not KeyTBL then continue end
 
 		for _, KeyName in pairs( KeyTBL ) do
-			ply:lvsSetInput( KeyName, false )
+			client:lvsSetInput( KeyName, false )
 		end
 	end
 end )
 
-hook.Add( "PlayerButtonDown", "!!!lvsButtonDown", function( ply, button )
-	if not ply:lvsGetInputEnabled() then return end
+hook.Add( "PlayerButtonDown", "!!!lvsButtonDown", function( client, button )
+	if not client:lvsGetInputEnabled() then return end
 
-	local vehicle = ply:lvsGetVehicle()
+	local vehicle = client:lvsGetVehicle()
 	local vehValid = IsValid( vehicle )
 
-	for _, KeyBind in pairs( ply:lvsGetControls() ) do
+	for _, KeyBind in pairs( client:lvsGetControls() ) do
 		local KeyTBL = KeyBind[ button ]
 
 		if not KeyTBL then continue end
 
 		for _, KeyName in pairs( KeyTBL ) do
-			ply:lvsSetInput( KeyName, true )
+			client:lvsSetInput( KeyName, true )
 
 			if not vehValid then continue end
 
 			if string.StartWith( KeyName, "~SELECT~" ) then
 				local exp_string = string.Explode( "#", KeyName )
-				local base = ply:lvsGetWeaponHandler()
+				local base = client:lvsGetWeaponHandler()
 
 				if exp_string[2] and IsValid( base ) then
 					base:SelectWeapon( tonumber( exp_string[2] ) )
@@ -398,16 +398,16 @@ hook.Add( "PlayerButtonDown", "!!!lvsButtonDown", function( ply, button )
 			end
 
 			if KeyName == "EXIT" then
-				if vehicle:GetDriver() == ply and vehicle:GetlvsLockedStatus() then vehicle:UnLock() end
+				if vehicle:GetDriver() == client and vehicle:GetlvsLockedStatus() then vehicle:UnLock() end
 
 				if vehicle:GetlvsLockedStatus() then continue end
 
-				ply:ExitVehicle()
+				client:ExitVehicle()
 			end
 		end
 	end
 end )
 
-hook.Add("CanExitVehicle","!!!lvsCanExitVehicle",function(vehicle,ply)
-	if IsValid( ply:lvsGetVehicle() ) then return false end
+hook.Add("CanExitVehicle","!!!lvsCanExitVehicle",function(vehicle,client)
+	if IsValid( client:lvsGetVehicle() ) then return false end
 end)

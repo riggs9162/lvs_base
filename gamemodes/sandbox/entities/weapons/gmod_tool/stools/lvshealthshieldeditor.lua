@@ -74,8 +74,8 @@ end
 function TOOL:Think()
 	if SERVER then return end
 
-	local ply = LocalPlayer()
-	local tr = ply:GetEyeTrace()
+	local client = LocalPlayer()
+	local tr = client:GetEyeTrace()
 
 	local ent = tr.Entity
 	if not IsValid( ent ) then return end

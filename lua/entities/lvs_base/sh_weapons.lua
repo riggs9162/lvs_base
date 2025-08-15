@@ -250,11 +250,11 @@ if SERVER then
 	function ENT:WeaponsShouldFire()
 		if self:GetAI() then return self._AIFireInput end
 
-		local ply = self:GetDriver()
+		local client = self:GetDriver()
 
-		if not IsValid( ply ) then return false end
+		if not IsValid( client ) then return false end
 
-		return ply:lvsKeyDown( "ATTACK" )
+		return client:lvsKeyDown( "ATTACK" )
 	end
 
 	function ENT:WeaponsThink()
@@ -357,12 +357,12 @@ if SERVER then
 			self:SetSelectedWeapon( ID )
 		end
 
-		local ply = self:GetDriver()
+		local client = self:GetDriver()
 
-		if not IsValid( ply ) then return end
+		if not IsValid( client ) then return end
 
 		net.Start( "lvs_select_weapon" )
-		net.Send( ply )
+		net.Send( client )
 	end
 
 	function ENT:OnWeaponChanged( name, old, new)
@@ -413,26 +413,26 @@ function ENT:PrevWeapon()
 end
 
 LVS:AddHudEditor( "WeaponSwitcher", ScrW() - 210, ScrH() - 165,  200, 68, 200, 68, "WEAPON SELECTOR",
-	function( self, vehicle, X, Y, W, H, ScrX, ScrY, ply )
+	function( self, vehicle, X, Y, W, H, ScrX, ScrY, client )
 		if not vehicle.LVSHudPaintWeapons then return end
-		vehicle:LVSHudPaintWeapons( X, Y, W, H, ScrX, ScrY, ply )
+		vehicle:LVSHudPaintWeapons( X, Y, W, H, ScrX, ScrY, client )
 	end
 )
 
 LVS:AddHudEditor( "WeaponInfo", ScrW() - 230, ScrH() - 85,  220, 75, 220, 75, "WEAPON INFO",
-	function( self, vehicle, X, Y, W, H, ScrX, ScrY, ply )
+	function( self, vehicle, X, Y, W, H, ScrX, ScrY, client )
 		if not vehicle.LVSHudPaintWeaponInfo then return end
 
-		vehicle:LVSHudPaintWeaponInfo( X, Y, W, H, ScrX, ScrY, ply )
+		vehicle:LVSHudPaintWeaponInfo( X, Y, W, H, ScrX, ScrY, client )
 	end
 )
 
 function ENT:GetAmmoID( ID )
-	local ply = LocalPlayer()
+	local client = LocalPlayer()
 
-	if not IsValid( ply ) then return end
+	if not IsValid( client ) then return end
 
-	local Base = ply:lvsGetWeaponHandler()
+	local Base = client:lvsGetWeaponHandler()
 
 	if not IsValid( Base ) then return -1 end
 
@@ -485,8 +485,8 @@ ENT.HeatIsClipMat = Material( "lvs/3d2dmats/refil.png" )
 local color_white = color_white
 local color_red = Color(255,0,0,255)
 
-function ENT:LVSHudPaintWeaponInfo( X, Y, w, h, ScrX, ScrY, ply )
-	local Base = ply:lvsGetWeaponHandler()
+function ENT:LVSHudPaintWeaponInfo( X, Y, w, h, ScrX, ScrY, client )
+	local Base = client:lvsGetWeaponHandler()
 
 	if not IsValid( Base ) then return end
 
@@ -500,7 +500,7 @@ function ENT:LVSHudPaintWeaponInfo( X, Y, w, h, ScrX, ScrY, ply )
 	local Ammo = Base:GetNWAmmo()
 
 	if Weapon and Weapon.HeatIsClip then
-		local Pod = ply:GetVehicle()
+		local Pod = client:GetVehicle()
 
 		if not IsValid( Pod ) then return end
 
@@ -572,14 +572,14 @@ function ENT:LVSHudPaintWeaponInfo( X, Y, w, h, ScrX, ScrY, ply )
 	draw.DrawText( Ammo, "LVS_FONT_HUD_LARGE", X + 72, Y + 20, color_white, TEXT_ALIGN_LEFT )
 end
 
-function ENT:LVSHudPaintWeapons( X, Y, w, h, ScrX, ScrY, ply )
+function ENT:LVSHudPaintWeapons( X, Y, w, h, ScrX, ScrY, client )
 	local EntTable = self:GetTable()
 
-	local Base = ply:lvsGetWeaponHandler()
+	local Base = client:lvsGetWeaponHandler()
 
 	if not IsValid( Base ) then return end
 
-	local Pod = ply:GetVehicle()
+	local Pod = client:GetVehicle()
 
 	if not IsValid( Pod ) then return end
 

@@ -57,7 +57,7 @@ function ENT:SetupDataTables()
 end
 
 if SERVER then
-	function ENT:SpawnFunction( ply, tr, ClassName )
+	function ENT:SpawnFunction( client, tr, ClassName )
 		if not tr.Hit then return end
 
 		local ent = ents.Create( ClassName )
@@ -86,11 +86,11 @@ if SERVER then
 		self.NextSpawn = 0
 	end
 
-	function ENT:Use( ply )
-		if not IsValid( ply ) then return end
+	function ENT:Use( client )
+		if not IsValid( client ) then return end
 
 		if not IsValid( self.Defusor ) then
-			self.Defusor = ply
+			self.Defusor = client
 			self.DefuseTime = CurTime()
 		end
 	end
@@ -227,14 +227,14 @@ if CLIENT then
 	local ArrowMat = Material( "lvs/3d2dmats/arrow.png" )
 
 	function ENT:Draw()
-		local ply = LocalPlayer()
+		local client = LocalPlayer()
 
-		if not IsValid( ply ) then return end
+		if not IsValid( client ) then return end
 
 		if TutorialDone then
 			if GetConVarNumber( "cl_draweffectrings" ) == 0 then return end
 
-			local wep = ply:GetActiveWeapon()
+			local wep = client:GetActiveWeapon()
 
 			if not IsValid( wep ) then return end
 
@@ -244,7 +244,7 @@ if CLIENT then
 				return
 			end
 		else
-			local wep = ply:GetActiveWeapon()
+			local wep = client:GetActiveWeapon()
 
 			if not IsValid( wep ) then return end
 
@@ -253,8 +253,8 @@ if CLIENT then
 			if not WhiteList[ weapon_name ] then
 				if weapon_name == "gmod_camera" then return end
 
-				local Trace = ply:GetEyeTrace()
-				if Trace.Entity != self or (ply:GetShootPos() - Trace.HitPos):Length() > 800 then return end
+				local Trace = client:GetEyeTrace()
+				if Trace.Entity != self or (client:GetShootPos() - Trace.HitPos):Length() > 800 then return end
 			end
 		end
 
@@ -302,12 +302,12 @@ if CLIENT then
 			hook.Remove( "HUDPaint", "!!!!!!!11111lvsvehiclespammer_tutorial" )
 		end
 
-		local ply = LocalPlayer()
+		local client = LocalPlayer()
 
-		if ply:InVehicle() then return end
+		if client:InVehicle() then return end
 
-		local trace = ply:GetEyeTrace()
-		local Dist = (ply:GetShootPos() - trace.HitPos):Length()
+		local trace = client:GetEyeTrace()
+		local Dist = (client:GetShootPos() - trace.HitPos):Length()
 
 		if Dist > 800 then return end
 

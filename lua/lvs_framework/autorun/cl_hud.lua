@@ -177,10 +177,10 @@ function LVS:OpenEditors()
 	end
 
 	local T = CurTime()
-	local ply = LocalPlayer()
-	local pod = ply:GetVehicle()
+	local client = LocalPlayer()
+	local pod = client:GetVehicle()
 
-	ply.SwitcherTime = T + 9999
+	client.SwitcherTime = T + 9999
 
 	if not IsValid( pod ) then return end
 
@@ -196,10 +196,10 @@ function LVS:CloseEditors()
 	end
 
 	local T = CurTime()
-	local ply = LocalPlayer()
-	local pod = ply:GetVehicle()
+	local client = LocalPlayer()
+	local pod = client:GetVehicle()
 
-	ply.SwitcherTime = T
+	client.SwitcherTime = T
 
 	if not IsValid( pod ) then return end
 
@@ -284,15 +284,15 @@ local function PaintIdentifier( ent )
 end
 
 hook.Add( "HUDPaint", "!!!!!LVS_hud", function()
-	local ply = LocalPlayer()
+	local client = LocalPlayer()
 
-	if ply:GetViewEntity() != ply then return end
+	if client:GetViewEntity() != client then return end
 
-	local Pod = ply:GetVehicle()
-	local Parent = ply:lvsGetVehicle()
+	local Pod = client:GetVehicle()
+	local Parent = client:lvsGetVehicle()
 
 	if not IsValid( Pod ) or not IsValid( Parent ) then
-		ply._lvsoldPassengers = {}
+		client._lvsoldPassengers = {}
 
 		return
 	end
@@ -301,18 +301,18 @@ hook.Add( "HUDPaint", "!!!!!LVS_hud", function()
 	local Y = ScrH()
 
 	PaintIdentifier( Parent )
-	Parent:LVSHudPaint( X, Y, ply )
+	Parent:LVSHudPaint( X, Y, client )
 
 	local base = Pod:lvsGetWeapon()
 	if IsValid( base ) then
 		local weapon = base:GetActiveWeapon()
 		if weapon and weapon.HudPaint then
-			weapon.HudPaint( base, X, Y, ply )
+			weapon.HudPaint( base, X, Y, client )
 		end
 	else
 		local weapon = Parent:GetActiveWeapon()
-		if ply == Parent:GetDriver() and weapon and weapon.HudPaint then
-			weapon.HudPaint( Parent, X, Y, ply )
+		if client == Parent:GetDriver() and weapon and weapon.HudPaint then
+			weapon.HudPaint( Parent, X, Y, client )
 		end
 	end
 
@@ -332,13 +332,13 @@ hook.Add( "HUDPaint", "!!!!!LVS_hud", function()
 		local ScrH = Y / ScaleY
 
 		if ScaleX == 1 and ScaleY == 1 then
-			editor:func( Parent, PosX, PosY, Width, Height, ScrW, ScrH, ply )
+			editor:func( Parent, PosX, PosY, Width, Height, ScrW, ScrH, client )
 		else
 			local m = Matrix()
 			m:Scale( Vector( ScaleX, ScaleY, 1 ) )
 
 			cam.PushModelMatrix( m )
-				editor:func( Parent, PosX, PosY, Width, Height, ScrW, ScrH, ply )
+				editor:func( Parent, PosX, PosY, Width, Height, ScrW, ScrH, client )
 			cam.PopModelMatrix()
 		end
 	end

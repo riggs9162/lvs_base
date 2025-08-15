@@ -759,4 +759,4 @@ list.Set( "DesktopWindows", "LVSMenu", {
 	end
 } )
 
-concommand.Add( "lvs_openmenu", function( ply, cmd, args ) LVS:OpenMenu() end )
+concommand.Add( "lvs_openmenu", function( client, cmd, args ) LVS:OpenMenu() end )

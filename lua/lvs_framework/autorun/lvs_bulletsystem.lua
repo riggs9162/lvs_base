@@ -299,14 +299,14 @@ local function GetEarPos()
 
 	local EarPos
 
-	local ply = LocalPlayer()
-	local ViewEnt = ply:GetViewEntity()
+	local client = LocalPlayer()
+	local ViewEnt = client:GetViewEntity()
 
-	if ViewEnt == ply then
-		if IsValid( ply:lvsGetVehicle() ) then
-			EarPos = ply:lvsGetView()
+	if ViewEnt == client then
+		if IsValid( client:lvsGetVehicle() ) then
+			EarPos = client:lvsGetView()
 		else
-			EarPos = ply:GetShootPos()
+			EarPos = client:GetShootPos()
 		end
 	else
 		EarPos = ViewEnt:GetPos()
@@ -358,7 +358,7 @@ if SERVER then
 	util.AddNetworkString( "lvs_fire_bullet" )
 	util.AddNetworkString( "lvs_remove_bullet" )
 
-	hook.Add( "Tick", "!!!!lvs_bullet_handler", function( ply, ent ) -- from what i understand, think can "skip" on lag, while tick still simulates all steps
+	hook.Add( "Tick", "!!!!lvs_bullet_handler", function( client, ent ) -- from what i understand, think can "skip" on lag, while tick still simulates all steps
 		HandleBullets()
 	end )
 
@@ -416,8 +416,8 @@ if SERVER then
 		end
 
 		if InfMap then
-			for _, ply in ipairs( player.GetAll() ) do
-				local NewPos = Vector( bullet.Src.x, bullet.Src.y, bullet.Src.z ) - InfMap.unlocalize_vector( Vector(), ply.CHUNK_OFFSET )
+			for _, client in ipairs( player.GetAll() ) do
+				local NewPos = Vector( bullet.Src.x, bullet.Src.y, bullet.Src.z ) - InfMap.unlocalize_vector( Vector(), client.CHUNK_OFFSET )
 
 				net.Start( "lvs_fire_bullet", true )
 					net.WriteInt( Index, 13 )
@@ -434,7 +434,7 @@ if SERVER then
 					net.WriteFloat( bullet.SrcEntity.z )
 					net.WriteFloat( bullet.Velocity )
 					net.WriteBool( bullet.EnableBallistics )
-				net.Send( ply )
+				net.Send( client )
 			end
 		else
 			net.Start( "lvs_fire_bullet", true )
@@ -502,10 +502,10 @@ else
 
 		bullet.StartTimeCL = CurTime() + RealFrameTime()
 
-		local ply = LocalPlayer()
+		local client = LocalPlayer()
 
-		if IsValid( ply ) then
-			bullet.Muted = bullet.Entity == ply:lvsGetVehicle() or bullet.Entity:GetOwner() == ply
+		if IsValid( client ) then
+			bullet.Muted = bullet.Entity == client:lvsGetVehicle() or bullet.Entity:GetOwner() == client
 		end
 
 		bullet.bulletindex = Index

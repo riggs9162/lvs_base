@@ -106,25 +106,25 @@ end
 function ENT:OnSetupDataTables()
 end
 
-function ENT:CalcMainActivity( ply )
+function ENT:CalcMainActivity( client )
 end
 
-function ENT:GetPlayerBoneManipulation( ply, PodID )
+function ENT:GetPlayerBoneManipulation( client, PodID )
 	return self.PlayerBoneManipulate[ PodID ] or {}
 end
 
-function ENT:UpdateAnimation( ply, velocity, maxseqgroundspeed )
-	ply:SetPlaybackRate( 1 )
+function ENT:UpdateAnimation( client, velocity, maxseqgroundspeed )
+	client:SetPlaybackRate( 1 )
 
 	if CLIENT then
-		GAMEMODE:GrabEarAnimation( ply )
-		GAMEMODE:MouthMoveAnimation( ply )
+		GAMEMODE:GrabEarAnimation( client )
+		GAMEMODE:MouthMoveAnimation( client )
 	end
 
 	return false
 end
 
-function ENT:StartCommand( ply, cmd )
+function ENT:StartCommand( client, cmd )
 end
 
 function ENT:HitGround()
@@ -284,11 +284,11 @@ function ENT:GetEveryone()
 	for _, Pod in pairs( self:GetPassengerSeats() ) do
 		if not IsValid( Pod ) then continue end
 
-		local ply = Pod:GetDriver()
+		local client = Pod:GetDriver()
 
-		if not IsValid( ply ) then continue end
+		if not IsValid( client ) then continue end
 
-		table.insert( plys, ply )
+		table.insert( plys, client )
 	end
 
 	return plys

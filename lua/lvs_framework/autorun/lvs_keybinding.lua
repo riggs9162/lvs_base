@@ -105,27 +105,27 @@ end )
 
 if SERVER then return end
 
-concommand.Add( "lvs_mouseaim_toggle", function( ply, cmd, args )
+concommand.Add( "lvs_mouseaim_toggle", function( client, cmd, args )
 	local OldVar = GetConVar( "lvs_mouseaim" ):GetInt()
 
 	if OldVar == 0 then
-		ply:PrintMessage( HUD_PRINTTALK, "[LVS] Mouse-Aim: Enabled" )
+		client:PrintMessage( HUD_PRINTTALK, "[LVS] Mouse-Aim: Enabled" )
 		RunConsoleCommand( "lvs_mouseaim", "1" )
 
 	else
-		ply:PrintMessage( HUD_PRINTTALK, "[LVS] Mouse-Aim: Disabled" )
+		client:PrintMessage( HUD_PRINTTALK, "[LVS] Mouse-Aim: Disabled" )
 		RunConsoleCommand( "lvs_mouseaim", "0" )
 	end
 end )
 
-hook.Add( "PlayerBindPress", "!!!!_LVS_PlayerBindPress", function( ply, bind, pressed )
-	if not ply.lvsGetVehicle then return end
+hook.Add( "PlayerBindPress", "!!!!_LVS_PlayerBindPress", function( client, bind, pressed )
+	if not client.lvsGetVehicle then return end
 
-	local vehicle = ply:lvsGetVehicle()
+	local vehicle = client:lvsGetVehicle()
 
 	if not IsValid( vehicle ) then return end
 
-	if not ply:lvsKeyDown( "VIEWDIST" ) then
+	if not client:lvsKeyDown( "VIEWDIST" ) then
 		if string.find( bind, "invnext" ) then
 			vehicle:NextWeapon()
 		end
@@ -142,17 +142,17 @@ hook.Add( "PlayerBindPress", "!!!!_LVS_PlayerBindPress", function( ply, bind, pr
 end )
 
 hook.Add( "SpawnMenuOpen", "!!!lvs_spawnmenudisable", function()
-	local ply = LocalPlayer() 
+	local client = LocalPlayer() 
 
-	if not ply._lvsDisableSpawnMenu or not IsValid( ply:lvsGetVehicle() ) then return end
+	if not client._lvsDisableSpawnMenu or not IsValid( client:lvsGetVehicle() ) then return end
 
 	return false
 end )
 
 hook.Add( "ContextMenuOpen", "!!!lvs_contextmenudisable", function()
-	local ply = LocalPlayer() 
+	local client = LocalPlayer() 
 
-	if not ply._lvsDisableContextMenu or not IsValid( ply:lvsGetVehicle() ) then return end
+	if not client._lvsDisableContextMenu or not IsValid( client:lvsGetVehicle() ) then return end
 
 	return false
 end )

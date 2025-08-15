@@ -3,9 +3,9 @@ if CLIENT then
 	net.Receive( "lvs_hurtmarker", function( len )
 		if not LVS.ShowHitMarker then return end
 
-		local ply = LocalPlayer()
+		local client = LocalPlayer()
 
-		local vehicle = ply:lvsGetVehicle()
+		local vehicle = client:lvsGetVehicle()
 
 		if not IsValid( vehicle ) then return end
 
@@ -15,14 +15,14 @@ if CLIENT then
 	net.Receive( "lvs_hitmarker", function( len )
 		if not LVS.ShowHitMarker then return end
 
-		local ply = LocalPlayer()
+		local client = LocalPlayer()
 
-		local vehicle = ply:lvsGetVehicle()
+		local vehicle = client:lvsGetVehicle()
 
 		local IsCrit = net.ReadBool()
 
 		if not IsValid( vehicle ) then
-			hook.Run( "LVS:OnHudIndicator", ply,  IsCrit and "crit" or "hit" )
+			hook.Run( "LVS:OnHudIndicator", client,  IsCrit and "crit" or "hit" )
 
 			return
 		end
@@ -37,12 +37,12 @@ if CLIENT then
 	net.Receive( "lvs_killmarker", function( len )
 		if not LVS.ShowHitMarker then return end
 
-		local ply = LocalPlayer()
+		local client = LocalPlayer()
 
-		local vehicle = ply:lvsGetVehicle()
+		local vehicle = client:lvsGetVehicle()
 
 		if not IsValid( vehicle ) then
-			hook.Run( "LVS:OnHudIndicator", ply, "kill" )
+			hook.Run( "LVS:OnHudIndicator", client, "kill" )
 
 			return
 		end
@@ -53,14 +53,14 @@ if CLIENT then
 	net.Receive( "lvs_armormarker", function( len )
 		if not LVS.ShowHitMarker then return end
 
-		local ply = LocalPlayer()
+		local client = LocalPlayer()
 
-		local vehicle = ply:lvsGetVehicle()
+		local vehicle = client:lvsGetVehicle()
 
 		local IsDamage = net.ReadBool()
 
 		if not IsValid( vehicle ) then
-			hook.Run( "LVS:OnHudIndicator", ply, IsDamage and "armorcrit" or "armor" )
+			hook.Run( "LVS:OnHudIndicator", client, IsDamage and "armorcrit" or "armor" )
 
 			return
 		end

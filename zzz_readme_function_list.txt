@@ -3,12 +3,12 @@
 ============= PLAYER SHARED =============
 =========================================
 
-lvsEntity = ply:lvsGetVehicle() -- returns the lvs entity the player is currently driving or sitting in
-entity = ply:lvsGetWeaponHandler() -- returns the current weapon handler. As driver this is always equal to ply:lvsGetVehicle()
+lvsEntity = client:lvsGetVehicle() -- returns the lvs entity the player is currently driving or sitting in
+entity = client:lvsGetWeaponHandler() -- returns the current weapon handler. As driver this is always equal to client:lvsGetVehicle()
 
-number = ply:lvsGetAITeam() -- returns the player's AI-Team
+number = client:lvsGetAITeam() -- returns the player's AI-Team
 
-ply:lvsSetAITeam( nTeam ) -- set a player's AI-Team. Valid teams are:
+client:lvsSetAITeam( nTeam ) -- set a player's AI-Team. Valid teams are:
 --[[
 nTeam:
 	0 = FRIENDLY TO EVERYONE
@@ -18,16 +18,16 @@ nTeam:
 ]]
 
 
-table = ply:lvsGetControls() -- returns ALL player controls in a table
-bool = ply:lvsKeyDown( string_name ) -- returns current given key, default binding string_name's can be found in lvs_keybinding.lua
-					Example usage: print( ply:lvsKeyDown("ATTACK") )
-bool = ply:lvsMouseAim() -- returns if the player has mouse aim enabled
-ply:lvsMouseSensitivity()
+table = client:lvsGetControls() -- returns ALL player controls in a table
+bool = client:lvsKeyDown( string_name ) -- returns current given key, default binding string_name's can be found in lvs_keybinding.lua
+					Example usage: print( client:lvsKeyDown("ATTACK") )
+bool = client:lvsMouseAim() -- returns if the player has mouse aim enabled
+client:lvsMouseSensitivity()
 
-ply:lvsBuildControls() -- build player controls table
+client:lvsBuildControls() -- build player controls table
 
-bool = ply:lvsGetInputEnabled() -- returns if inputs are disabled or not
-ply:lvsSetInputDisabled( bool ) -- set inputs enabled/disabled (this has a auto-enable build in after 4 seconds and has to be called every 4 seconds to stay disabled)
+bool = client:lvsGetInputEnabled() -- returns if inputs are disabled or not
+client:lvsSetInputDisabled( bool ) -- set inputs enabled/disabled (this has a auto-enable build in after 4 seconds and has to be called every 4 seconds to stay disabled)
 
 
 
@@ -151,7 +151,7 @@ hook.Add( "LVS:Initialize", "any_name_you_want", function()
 	print("lvs has been initialized")
 end )
 
-hook.Add( "LVS.OnPlayerRequestSeatSwitch", "any_name_you_want", function( ply, vehicle, CurPod, NewPod )
+hook.Add( "LVS.OnPlayerRequestSeatSwitch", "any_name_you_want", function( client, vehicle, CurPod, NewPod )
 	return false -- prevent player from changing seat
 end )
 
@@ -163,16 +163,16 @@ hook.Add( "LVS.IsEngineStartAllowed", "any_name_you_want", function( vehicle )
 	return false -- disable engine start
 end )
 
-hook.Add( "LVS.PlayerKeyDown", "any_name_you_want", function( ply, keyname, pressed )
+hook.Add( "LVS.PlayerKeyDown", "any_name_you_want", function( client, keyname, pressed )
 	print("test")
 end )
 
-hook.Add( "LVS.CanPlayerDrive", "any_name_you_want", function( ply, vehicle )
+hook.Add( "LVS.CanPlayerDrive", "any_name_you_want", function( client, vehicle )
 	return false -- prevent players from driving vehicles
 end )
 
-hook.Add( "LVS.OnPlayerCannotDrive", "any_name_you_want", function( ply, vehicle )
-	print(ply:GetName().." can not drive :(")
+hook.Add( "LVS.OnPlayerCannotDrive", "any_name_you_want", function( client, vehicle )
+	print(client:GetName().." can not drive :(")
 end )
 
 hook.Add( "LVS.OnVehicleDestroyed", "any_name_you_want", function( vehicle, attacker, inflictor )
@@ -183,12 +183,12 @@ end )
 =========== LVS HOOKS CLIENT ===========
 ========================================
 
-hook.Add( "LVS.PlayerEnteredVehicle", "any_name_you_want", function( ply, veh )
-	print(ply:GetName().." entered a lvs vehicle")
+hook.Add( "LVS.PlayerEnteredVehicle", "any_name_you_want", function( client, veh )
+	print(client:GetName().." entered a lvs vehicle")
 end )
 
-hook.Add( "LVS.PlayerLeaveVehicle", "any_name_you_want", function( ply, veh )
-	print(ply:GetName().." exit a lvs vehicle")
+hook.Add( "LVS.PlayerLeaveVehicle", "any_name_you_want", function( client, veh )
+	print(client:GetName().." exit a lvs vehicle")
 end )
 
 hook.Add( "LVS.PopulateVehicles", "any_name_you_want", function( lvsNode, pnlContent, tree )

@@ -172,11 +172,11 @@ end
 function ENT:WeaponsShouldFire()
 	if self:GetAI() then return self._AIFireInput end
 
-	local ply = self:GetDriver()
+	local client = self:GetDriver()
 
-	if not IsValid( ply ) then return false end
+	if not IsValid( client ) then return false end
 
-	return ply:lvsKeyDown( "ATTACK" )
+	return client:lvsKeyDown( "ATTACK" )
 end
 
 function ENT:WeaponsThink()
@@ -284,12 +284,12 @@ function ENT:SelectWeapon( ID )
 		self:SetSelectedWeapon( ID )
 	end
 
-	local ply = self:GetDriver()
+	local client = self:GetDriver()
 
-	if not IsValid( ply ) then return end
+	if not IsValid( client ) then return end
 
 	net.Start( "lvs_select_weapon" )
-	net.Send( ply )
+	net.Send( client )
 end
 
 function ENT:OnWeaponChanged( name, old, new)

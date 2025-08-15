@@ -13,14 +13,14 @@ end
 if SERVER then
 	util.AddNetworkString( "lvs_forced_input_getter" )
 
-	local function UpdateForcedSettings( ply )
+	local function UpdateForcedSettings( client )
 		net.Start( "lvs_forced_input_getter" )
 
 		net.WriteBool( LVS:IsDirectInputForced() )
 		net.WriteBool( LVS:IsIndicatorForced() )
 
-		if IsValid( ply ) then
-			net.Send( ply )
+		if IsValid( client ) then
+			net.Send( client )
 		else
 			net.Broadcast()
 		end
@@ -40,8 +40,8 @@ if SERVER then
 		UpdateForcedSettings()
 	end)
 
-	net.Receive( "lvs_forced_input_getter", function( length, ply )
-		UpdateForcedSettings( ply )
+	net.Receive( "lvs_forced_input_getter", function( length, client )
+		UpdateForcedSettings( client )
 	end)
 else
 	net.Receive( "lvs_forced_input_getter", function( length )

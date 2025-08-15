@@ -26,11 +26,11 @@ function SWEP:SetupDataTables()
 end
 
 function SWEP:GetLVS()
-	local ply = self:GetOwner()
+	local client = self:GetOwner()
 
-	if not IsValid( ply ) then return NULL end
+	if not IsValid( client ) then return NULL end
 
-	local ent = ply:GetEyeTrace().Entity
+	local ent = client:GetEyeTrace().Entity
 
 	if not IsValid( ent ) then return NULL end
 
@@ -50,12 +50,12 @@ function SWEP:FindClosest()
 
 	if not IsValid( lvsEnt ) then return NULL end
 
-	local ply = self:GetOwner()
+	local client = self:GetOwner()
 
-	if ply:InVehicle() then return end
+	if client:InVehicle() then return end
 
-	local ShootPos = ply:GetShootPos()
-	local AimVector = ply:GetAimVector()
+	local ShootPos = client:GetShootPos()
+	local AimVector = client:GetAimVector()
 
 	local ClosestDist = self.MaxRange
 	local ClosestPiece = NULL
@@ -144,7 +144,7 @@ if CLIENT then
 		cam.End2D()
 	end
 
-	function SWEP:DrawEffects( weapon, ply )
+	function SWEP:DrawEffects( weapon, client )
 		local ID = weapon:LookupAttachment( "muzzle" )
 
 		local Muzzle = weapon:GetAttachment( ID )
@@ -167,8 +167,8 @@ if CLIENT then
 
 		self._NextFX2 = T + 0.06
 
-		local trace = ply:GetEyeTrace()
-		local ShootPos = ply:GetShootPos()
+		local trace = client:GetEyeTrace()
+		local ShootPos = client:GetShootPos()
 
 		if (ShootPos - trace.HitPos):Length() > self.MaxRange then return end
 
@@ -191,8 +191,8 @@ if CLIENT then
 		dlight.dietime = CurTime() + 0.1
 	end
 
-	function SWEP:PostDrawViewModel( vm, weapon, ply )
-		self:DrawEffects( vm, ply )
+	function SWEP:PostDrawViewModel( vm, weapon, client )
+		self:DrawEffects( vm, client )
 	end
 
 	function SWEP:DrawWorldModel( flags )
@@ -201,19 +201,19 @@ if CLIENT then
 	end
 
 	function SWEP:DrawHUD()
-		local ply = self:GetOwner()
+		local client = self:GetOwner()
 
-		if not IsValid( ply ) or not ply:KeyDown( IN_ATTACK2 ) then
+		if not IsValid( client ) or not client:KeyDown( IN_ATTACK2 ) then
 			local lvsEnt = self:GetLVS()
-			local Pos = ply:GetEyeTrace().HitPos
+			local Pos = client:GetEyeTrace().HitPos
 
-			if IsValid( lvsEnt ) and (Pos - ply:GetShootPos()):Length() < self.MaxRange and not ply:InVehicle() then
+			if IsValid( lvsEnt ) and (Pos - client:GetShootPos()):Length() < self.MaxRange and not client:InVehicle() then
 				local Label = lvsEnt._lvsRepairToolLabel or "Frame"
 
 				if isfunction( lvsEnt.GetEngine ) then
 					local Engine = lvsEnt:GetEngine()
 
-					local AimPos = ply:GetEyeTrace().HitPos
+					local AimPos = client:GetEyeTrace().HitPos
 
 					local EngineMode = IsEngineMode( AimPos, Engine )
 
@@ -223,7 +223,7 @@ if CLIENT then
 						DrawText( AimPos, Label.."\nHealth: "..math.Round(lvsEnt:GetHP()).."/"..lvsEnt:GetMaxHP(), ColorText )
 					end
 				else
-					DrawText( ply:GetEyeTrace().HitPos, Label.."\nHealth: "..math.Round(lvsEnt:GetHP()).."/"..lvsEnt:GetMaxHP(), ColorText )
+					DrawText( client:GetEyeTrace().HitPos, Label.."\nHealth: "..math.Round(lvsEnt:GetHP()).."/"..lvsEnt:GetMaxHP(), ColorText )
 				end
 			end
 
@@ -245,9 +245,9 @@ if CLIENT then
 
 			DrawText( Target:LocalToWorld( (boxMins + boxMaxs) * 0.5 ), (Target:GetIgnoreForce() / 100).."mm "..Target:GetLabel().."\nHealth: "..math.Round(Target:GetHP()).."/"..Target:GetMaxHP(), ColorText )
 		else
-			local Pos = ply:GetEyeTrace().HitPos
+			local Pos = client:GetEyeTrace().HitPos
 
-			if IsValid( self:GetLVS() ) and (Pos - ply:GetShootPos()):Length() < self.MaxRange and not ply:InVehicle() then
+			if IsValid( self:GetLVS() ) and (Pos - client:GetShootPos()):Length() < self.MaxRange and not client:InVehicle() then
 				DrawText( Pos, "No Armor", ColorText )
 			end
 		end
@@ -269,15 +269,15 @@ function SWEP:PrimaryAttack()
 	local ArmorMode = true
 	local Target = self:FindClosest()
 
-	local ply = self:GetOwner()
+	local client = self:GetOwner()
 
-	if IsValid( ply ) and not ply:KeyDown( IN_ATTACK2 ) then
+	if IsValid( client ) and not client:KeyDown( IN_ATTACK2 ) then
 		Target = self:GetLVS()
 
 		if isfunction( Target.GetEngine ) then
 			local Engine = Target:GetEngine()
 
-			local AimPos = ply:GetEyeTrace().HitPos
+			local AimPos = client:GetEyeTrace().HitPos
 
 			EngineMode = IsEngineMode( AimPos, Engine )
 
@@ -295,7 +295,7 @@ function SWEP:PrimaryAttack()
 	local MaxHP = Target:GetMaxHP()
 
 	if IsFirstTimePredicted() then
-		local trace = ply:GetEyeTrace()
+		local trace = client:GetEyeTrace()
 
 		if HP != MaxHP then
 			local effectdata = EffectData()
@@ -326,11 +326,11 @@ function SWEP:SecondaryAttack()
 end
 
 function SWEP:Think()
-	local ply = self:GetOwner()
+	local client = self:GetOwner()
 
-	if not IsValid( ply ) then self:StopSND() return end
+	if not IsValid( client ) then self:StopSND() return end
 
-	local PlaySound = self:GetFlameTime() >= CurTime() and (ply:GetShootPos() - ply:GetEyeTrace().HitPos):Length() < self.MaxRange
+	local PlaySound = self:GetFlameTime() >= CurTime() and (client:GetShootPos() - client:GetEyeTrace().HitPos):Length() < self.MaxRange
 
 	if PlaySound then
 		self:PlaySND()
@@ -353,11 +353,11 @@ function SWEP:PlaySND()
 
 	if self._snd then return end
 
-	local ply = self:GetOwner()
+	local client = self:GetOwner()
 
-	if not IsValid( ply ) then return end
+	if not IsValid( client ) then return end
 
-	self._snd = CreateSound( ply, "lvs/weldingtorch_loop.wav" )
+	self._snd = CreateSound( client, "lvs/weldingtorch_loop.wav" )
 	self._snd:PlayEx(1, 70 )
 end
 

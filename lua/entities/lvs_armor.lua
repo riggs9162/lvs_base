@@ -231,16 +231,16 @@ local ColorText = Color(255,0,0,255)
 function ENT:DrawTranslucent()
 	if not LVS.DeveloperEnabled then return end
 
-	local ply = LocalPlayer()
+	local client = LocalPlayer()
 
-	if not IsValid( ply ) or ply:InVehicle() or not ply:KeyDown( IN_SPEED ) then return end
+	if not IsValid( client ) or client:InVehicle() or not client:KeyDown( IN_SPEED ) then return end
 
 	local boxOrigin = self:GetPos()
 	local boxAngles = self:GetAngles()
 	local boxMins = self:GetMins()
 	local boxMaxs = self:GetMaxs()
 
-	local HitPos, _, _ = util.IntersectRayWithOBB( ply:GetShootPos(), ply:GetAimVector() * 1000, boxOrigin, boxAngles, boxMins, boxMaxs )
+	local HitPos, _, _ = util.IntersectRayWithOBB( client:GetShootPos(), client:GetAimVector() * 1000, boxOrigin, boxAngles, boxMins, boxMaxs )
 
 	local InRange = isvector( HitPos )
 

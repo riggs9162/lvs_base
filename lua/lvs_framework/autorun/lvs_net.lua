@@ -4,18 +4,18 @@ if SERVER then
 	util.AddNetworkString( "lvs_player_enterexit" )
 	util.AddNetworkString( "lvs_toggle_mouseaim" )
 
-	net.Receive( "lvs_toggle_mouseaim", function( length, ply )
-		ply:lvsBuildControls()
+	net.Receive( "lvs_toggle_mouseaim", function( length, client )
+		client:lvsBuildControls()
 
-		local veh = ply:lvsGetVehicle()
+		local veh = client:lvsGetVehicle()
 
 		if not IsValid( veh ) then return end
 
-		veh:AlignView( ply )
+		veh:AlignView( client )
 	end)
 
-	net.Receive( "lvs_player_request_filter", function( length, ply )
-		if not IsValid( ply ) then return end
+	net.Receive( "lvs_player_request_filter", function( length, client )
+		if not IsValid( client ) then return end
 
 		local ent = net.ReadEntity()
 
@@ -32,7 +32,7 @@ if SERVER then
 		net.Start( "lvs_player_request_filter" )
 			net.WriteEntity( ent )
 			net.WriteTable( CrosshairFilterEnts )
-		net.Send( ply )
+		net.Send( client )
 	end)
 else
 	net.Receive( "lvs_player_request_filter", function( length )

@@ -1,21 +1,21 @@
 
 LVS:AddHudEditor( "VehicleHealth", 10, ScrH() - 85,  220, 75, 220, 75, "VEHICLE HEALTH",
-	function( self, vehicle, X, Y, W, H, ScrX, ScrY, ply )
+	function( self, vehicle, X, Y, W, H, ScrX, ScrY, client )
 		if not vehicle.LVSHudPaintVehicleHealth then return end
 
-		vehicle:LVSHudPaintVehicleHealth( X, Y, W, H, ScrX, ScrY, ply )
+		vehicle:LVSHudPaintVehicleHealth( X, Y, W, H, ScrX, ScrY, client )
 	end
 )
 
 LVS:AddHudEditor( "VehicleInfo", ScrW() - 460, ScrH() - 85,  220, 75, 220, 75, "VEHICLE INFORMATION",
-	function( self, vehicle, X, Y, W, H, ScrX, ScrY, ply )
+	function( self, vehicle, X, Y, W, H, ScrX, ScrY, client )
 		if not vehicle.LVSHudPaintInfoText then return end
 
-		vehicle:LVSHudPaintInfoText( X, Y, W, H, ScrX, ScrY, ply )
+		vehicle:LVSHudPaintInfoText( X, Y, W, H, ScrX, ScrY, client )
 	end
 )
 
-function ENT:LVSHudPaintVehicleHealth( X, Y, W, H, ScrX, ScrY, ply )
+function ENT:LVSHudPaintVehicleHealth( X, Y, W, H, ScrX, ScrY, client )
 	draw.DrawText( "HEALTH ", "LVS_FONT", X + 102, Y + 35, color_white, TEXT_ALIGN_RIGHT )
 	draw.DrawText( math.Round( self:GetHP(), 0 ), "LVS_FONT_HUD_LARGE", X + 102, Y + 20, color_white, TEXT_ALIGN_LEFT )
 end
@@ -34,7 +34,7 @@ function ENT:LVSHudPaintVehicleIdentifier( X, Y, In_Col )
 	end
 end
 
-function ENT:LVSHudPaint( X, Y, ply )
+function ENT:LVSHudPaint( X, Y, client )
 end
 
 function ENT:HurtMarker( intensity )

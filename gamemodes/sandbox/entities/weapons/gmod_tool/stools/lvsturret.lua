@@ -33,21 +33,21 @@ function TOOL:LeftClick( trace )
 
 	if CLIENT then return true end
 	
-	local ply = self:GetOwner()
+	local client = self:GetOwner()
 
 	if not istable( WireLib ) then
-		ply:PrintMessage( HUD_PRINTTALK, "[LVS]: WIREMOD REQUIRED" )
-		ply:SendLua( "gui.OpenURL( 'https://steamcommunity.com/sharedfiles/filedetails/?id=160250458' )") 
+		client:PrintMessage( HUD_PRINTTALK, "[LVS]: WIREMOD REQUIRED" )
+		client:SendLua( "gui.OpenURL( 'https://steamcommunity.com/sharedfiles/filedetails/?id=160250458' )") 
 	end
 	
 	if IsValid( trace.Entity ) and trace.Entity:GetClass():lower() == "lvs_turret" then 
 		self:UpdateTurret( trace.Entity )
 	else
-		local turret = self:MakeTurret( ply, trace.HitPos + trace.HitNormal * 5 )
+		local turret = self:MakeTurret( client, trace.HitPos + trace.HitNormal * 5 )
 		
 		undo.Create("Turret")
 			undo.AddEntity( turret )
-			undo.SetPlayer( ply )
+			undo.SetPlayer( client )
 		undo.Finish()
 	end
 	
@@ -74,9 +74,9 @@ if SERVER then
 		ent:SetSplashDamageType( self:GetClientInfo( "splasheffect" ) )
 	end
 
-	function TOOL:MakeTurret( ply, Pos, Ang )
+	function TOOL:MakeTurret( client, Pos, Ang )
 
-		if not ply:CheckLimit( "lvsturret" ) then return NULL end
+		if not client:CheckLimit( "lvsturret" ) then return NULL end
 
 		local turret = ents.Create( "lvs_turret" )
 		
@@ -86,12 +86,12 @@ if SERVER then
 		turret:SetAngles( Angle(0,0,0) )
 		turret:Spawn()
 
-		turret.Attacker = ply
+		turret.Attacker = client
 
 		self:UpdateTurret( turret )
 
-		ply:AddCount( "lvsturret", turret )
-		ply:AddCleanup( "lvsturret", turret )
+		client:AddCount( "lvsturret", turret )
+		client:AddCleanup( "lvsturret", turret )
 
 		return turret
 	end

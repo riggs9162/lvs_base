@@ -72,16 +72,16 @@ net.Receive( "lvs_soundemitter_playonce", function( len )
 end )
 
 function ENT:PlayOnce( pitch, volume )
-	local ply = LocalPlayer()
-	local veh = ply:lvsGetVehicle()
+	local client = LocalPlayer()
+	local veh = client:lvsGetVehicle()
 
 	local snd = self:GetSound()
 	local snd_int = self:GetSoundInterior()
 
 	if snd == snd_int then self:EmitSound( snd, self:GetSoundLevel(), pitch, volume, CHAN_WEAPON ) return end
 
-	if IsValid( veh ) and veh == self:GetBase() and ply:GetViewEntity() == ply then
-		local pod = ply:GetVehicle()
+	if IsValid( veh ) and veh == self:GetBase() and client:GetViewEntity() == client then
+		local pod = client:GetVehicle()
 
 		if IsValid( pod ) then
 			if pod:GetThirdPersonMode() then
@@ -113,12 +113,12 @@ function ENT:RemoveSounds()
 end
 
 function ENT:HandleSounds()
-	local ply = LocalPlayer()
-	local veh = ply:lvsGetVehicle()
+	local client = LocalPlayer()
+	local veh = client:lvsGetVehicle()
 	local base = self:GetBase()
 
 	if self:GetDoppler() and IsValid( base ) then
-		local Doppler = base:CalcDoppler( ply )
+		local Doppler = base:CalcDoppler( client )
 
 		if self.snd then self.snd:ChangePitch( 100 * Doppler, 0.5 ) end
 		if self.snd_int then self.snd_int:ChangePitch( 100 * Doppler, 0.5 ) end
@@ -126,8 +126,8 @@ function ENT:HandleSounds()
 
 	if not self.snd_int then return end
 
-	if IsValid( veh ) and veh == base and ply:GetViewEntity() == ply then
-		local pod = ply:GetVehicle()
+	if IsValid( veh ) and veh == base and client:GetViewEntity() == client then
+		local pod = client:GetVehicle()
 
 		if IsValid( pod ) then
 			if pod:GetThirdPersonMode() then
