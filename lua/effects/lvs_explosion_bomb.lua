@@ -109,7 +109,7 @@ function EFFECT:Init( data )
 
 			particle:SetVelocity( (self.Dir * 50 * i + VectorRand() * 25) * scale )
 			particle:SetDieTime( (i / 8) * DieTime )
-			particle:SetAirResistance( 10 ) 
+			particle:SetAirResistance( 10 )
 			particle:SetStartAlpha( 255 )
 			particle:SetStartSize( 10 * scale )
 			particle:SetEndSize( 20 * i * scale )
@@ -127,7 +127,7 @@ function EFFECT:Init( data )
 
 		particle:SetVelocity( (self.Dir * 50 * i + VectorRand() * 40) * scale )
 		particle:SetDieTime( (i / 8) * DieTime )
-		particle:SetAirResistance( 10 ) 
+		particle:SetAirResistance( 10 )
 		particle:SetStartAlpha( 255 )
 		particle:SetStartSize( 10 * scale )
 		particle:SetEndSize( 20 * i * scale )
@@ -139,7 +139,7 @@ function EFFECT:Init( data )
 
 	for i = 1,24 do
 		local particle = emitter:Add( self.SmokeMat[ math.random(1,#self.SmokeMat) ] , self.Pos )
-		
+
 		if particle then
 			local ang = i * 15
 			local X = math.cos( math.rad(ang) )
@@ -149,7 +149,7 @@ function EFFECT:Init( data )
 
 			particle:SetVelocity( Vel * scale )
 			particle:SetDieTime( math.Rand(1,3) )
-			particle:SetAirResistance( 600 ) 
+			particle:SetAirResistance( 600 )
 			particle:SetStartAlpha( 100 )
 			particle:SetStartSize( 40 * scale )
 			particle:SetEndSize( 200 * scale )
@@ -162,11 +162,11 @@ function EFFECT:Init( data )
 
 	for i = 0, 15 do
 		local particle = emitter:Add( self.SmokeMat[ math.random(1, #self.SmokeMat ) ], self.Pos )
-		
+
 		if particle then
 			particle:SetVelocity( VectorRand(-1,1) * 1000 )
 			particle:SetDieTime( math.Rand(2,3) )
-			particle:SetAirResistance( 200 ) 
+			particle:SetAirResistance( 200 )
 			particle:SetStartAlpha( 100 )
 			particle:SetStartSize( 200 )
 			particle:SetEndSize( 600 )
@@ -180,7 +180,7 @@ function EFFECT:Init( data )
 
 	for i = 0, 15 do
 		local particle = emitter:Add( "effects/lvs_base/flamelet"..math.random(1,5), self.Pos )
-		
+
 		if particle then
 			particle:SetVelocity( VectorRand(-1,1) * 500 )
 			particle:SetDieTime( math.Rand(0.15,0.3) )
@@ -196,9 +196,9 @@ function EFFECT:Init( data )
 
 	for i = 0, 20 do
 		local particle = emitter:Add( "sprites/rico1", self.Pos )
-		
+
 		local vel = VectorRand() * 800
-		
+
 		if particle then
 			particle:SetVelocity( vel )
 			particle:SetAngles( vel:Angle() + Angle(0,90,0) )
@@ -214,7 +214,7 @@ function EFFECT:Init( data )
 			particle:SetAirResistance( 0 )
 		end
 	end
-	
+
 	for i = 0,60 do
 		local particle = emitter:Add( "effects/fleck_tile"..math.random(1,2), self.Pos )
 		local vel = VectorRand() * math.Rand(800,1600)
@@ -223,7 +223,7 @@ function EFFECT:Init( data )
 		if particle then
 			particle:SetVelocity( vel )
 			particle:SetDieTime( math.random(5,15) )
-			particle:SetAirResistance( 10 ) 
+			particle:SetAirResistance( 10 )
 			particle:SetStartAlpha( 255 )
 			particle:SetStartSize( 5 )
 			particle:SetEndSize( 5 )
@@ -240,7 +240,7 @@ end
 
 function EFFECT:Explosion( pos , scale )
 	local emitter = ParticleEmitter( pos, false )
-	
+
 	if not IsValid( emitter ) then return end
 
 	for i = 0, 40 do

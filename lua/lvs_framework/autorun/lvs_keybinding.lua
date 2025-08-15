@@ -142,7 +142,7 @@ hook.Add( "PlayerBindPress", "!!!!_LVS_PlayerBindPress", function( client, bind,
 end )
 
 hook.Add( "SpawnMenuOpen", "!!!lvs_spawnmenudisable", function()
-	local client = LocalPlayer() 
+	local client = LocalPlayer()
 
 	if not client._lvsDisableSpawnMenu or not IsValid( client:lvsGetVehicle() ) then return end
 
@@ -150,7 +150,7 @@ hook.Add( "SpawnMenuOpen", "!!!lvs_spawnmenudisable", function()
 end )
 
 hook.Add( "ContextMenuOpen", "!!!lvs_contextmenudisable", function()
-	local client = LocalPlayer() 
+	local client = LocalPlayer()
 
 	if not client._lvsDisableContextMenu or not IsValid( client:lvsGetVehicle() ) then return end
 

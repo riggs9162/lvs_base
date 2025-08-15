@@ -34,7 +34,7 @@ hook.Add( "PlayerLeaveVehicle", "!!LVS_Exit", function( client, Pod )
 	local zOffset = 15
 	local ValidPositions = {}
 
-	if isvector( Pod.ExitPos ) and Vehicle:GetUp().z > 0.9 then 
+	if isvector( Pod.ExitPos ) and Vehicle:GetUp().z > 0.9 then
 		local data = {
 			pos = Vehicle:LocalToWorld( Pod.ExitPos ),
 			dist = 1,

@@ -150,7 +150,7 @@ if SERVER then
 		return ent
 	end
 
-	function ENT:Initialize()	
+	function ENT:Initialize()
 		self:SetModel( "models/weapons/w_missile_launch.mdl" )
 		self:SetMoveType( MOVETYPE_NONE )
 		self:SetRenderMode( RENDERMODE_TRANSALPHA )
@@ -175,7 +175,7 @@ if SERVER then
 		self.IsEnabled = true
 
 		local pObj = self:GetPhysicsObject()
-		
+
 		if not IsValid( pObj ) then
 			self:Remove()
 
@@ -184,8 +184,8 @@ if SERVER then
 			return
 		end
 
-		pObj:SetMass( 1 ) 
-		pObj:EnableGravity( false ) 
+		pObj:SetMass( 1 )
+		pObj:EnableGravity( false )
 		pObj:EnableMotion( true )
 		pObj:EnableDrag( false )
 
@@ -223,7 +223,7 @@ if SERVER then
 		return ForceAngle, ForceLinear, SIM_LOCAL_ACCELERATION
 	end
 
-	function ENT:Think()	
+	function ENT:Think()
 		local T = CurTime()
 
 		self:NextThink( T + 1 )
@@ -267,7 +267,7 @@ if SERVER then
 		self:Detonate( data.HitEntity )
 	end
 
-	function ENT:OnTakeDamage( dmginfo )	
+	function ENT:OnTakeDamage( dmginfo )
 	end
 
 	function ENT:Detonate( target )
@@ -275,7 +275,7 @@ if SERVER then
 
 		self.IsDetonated = true
 
-		local Pos =  self:GetPos() 
+		local Pos =  self:GetPos()
 
 		local effectdata = EffectData()
 			effectdata:SetOrigin( Pos )
@@ -288,7 +288,7 @@ if SERVER then
 		SafeRemoveEntityDelayed( self, FrameTime() )
 	end
 else
-	function ENT:Initialize()	
+	function ENT:Initialize()
 	end
 
 	function ENT:Enable()
@@ -417,7 +417,7 @@ else
 
 			DrawDiamond( MissilePos.x, MissilePos.y, 16, ID * 1337 - T * 100 )
 			draw.DrawText( Index, "LVS_FONT", MissilePos.x + 10, MissilePos.y + 10, color_red, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
-		
+
 			surface.DrawLine( MissilePos.x, MissilePos.y, TargetPos.x, TargetPos.y )
 		end
 	end )

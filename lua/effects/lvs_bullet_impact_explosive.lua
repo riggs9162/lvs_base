@@ -106,7 +106,7 @@ function EFFECT:Init( data )
 
 				particle:SetVelocity( (self.Dir * 50 * i + VectorRand() * 25) * self.Scale )
 				particle:SetDieTime( (i / 8) * DieTime )
-				particle:SetAirResistance( 10 ) 
+				particle:SetAirResistance( 10 )
 				particle:SetStartAlpha( 255 )
 				particle:SetStartSize( 10 * self.Scale )
 				particle:SetEndSize( 20 * i * self.Scale )
@@ -124,7 +124,7 @@ function EFFECT:Init( data )
 
 			particle:SetVelocity( (self.Dir * 50 * i + VectorRand() * 40) * self.Scale )
 			particle:SetDieTime( (i / 8) * DieTime )
-			particle:SetAirResistance( 10 ) 
+			particle:SetAirResistance( 10 )
 			particle:SetStartAlpha( 255 )
 			particle:SetStartSize( 10 * self.Scale )
 			particle:SetEndSize( 20 * i * self.Scale )
@@ -137,7 +137,7 @@ function EFFECT:Init( data )
 
 	for i = 1,24 do
 		local particle = emitter:Add( self.SmokeMat[ math.random(1,#self.SmokeMat) ] , self.Pos )
-		
+
 		if not particle then continue end
 
 		local ang = i * 15
@@ -149,7 +149,7 @@ function EFFECT:Init( data )
 
 		particle:SetVelocity( Vel * self.Scale )
 		particle:SetDieTime( math.Rand(1,3) )
-		particle:SetAirResistance( 600 ) 
+		particle:SetAirResistance( 600 )
 		particle:SetStartAlpha( 100 )
 		particle:SetStartSize( 40 * self.Scale )
 		particle:SetEndSize( 140 * self.Scale )
@@ -161,11 +161,11 @@ function EFFECT:Init( data )
 
 	for i = 0, 15 do
 		local particle = emitter:Add( self.SmokeMat[ math.random(1, #self.SmokeMat ) ], self.Pos )
-		
+
 		if particle then
 			particle:SetVelocity( VectorRand(-1,1) * 1000 * scale )
 			particle:SetDieTime( math.Rand(2,3) )
-			particle:SetAirResistance( 200 ) 
+			particle:SetAirResistance( 200 )
 			particle:SetStartAlpha( 100 )
 			particle:SetStartSize( 200 * scale )
 			particle:SetEndSize( 600 * scale )
@@ -239,7 +239,7 @@ end
 
 function EFFECT:Explosion( pos , scale )
 	local emitter = ParticleEmitter( pos, false )
-	
+
 	if not IsValid( emitter ) then return end
 
 	for i = 0, 40 do

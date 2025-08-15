@@ -3,6 +3,23 @@ function LVS:CalcView( vehicle, client, pos, angles, fov, pod )
 	local view = {}
 	view.origin = pos
 	view.angles = angles
+
+	-- Apply a small camera angle offset based on the vehicle's angles so
+	-- the camera subtly follows the vehicle orientation. The influence can
+	-- be overridden by providing pod:GetCameraAngleInfluence() which should
+	-- return a number (1.0 = full influence). We use conservative defaults
+	-- to avoid extreme camera jumps.
+	local vehAng = Angle( 0, 0, 0 )
+	if IsValid( vehicle ) then vehAng = vehicle:GetAngles() end
+
+	if pod and pod.GetCameraAngleInfluence then
+		local ok, val = pcall( pod.GetCameraAngleInfluence, pod )
+		if ok and type( val ) == "number" then influence = val end
+	end
+
+	-- Tuned scale values reduce pitch/roll effect while allowing some yaw follow.
+	local offset = Angle( 0, 0, vehAng.r )
+	view.angles = view.angles + offset
 	view.fov = fov
 	view.drawviewer = false
 
@@ -11,7 +28,7 @@ function LVS:CalcView( vehicle, client, pos, angles, fov, pod )
 	local mn = vehicle:OBBMins()
 	local mx = vehicle:OBBMaxs()
 	local radius = ( mn - mx ):Length()
-	local radius = radius + radius * pod:GetCameraDistance()
+	radius = radius + radius * pod:GetCameraDistance()
 
 	local TargetOrigin = view.origin + ( view.angles:Forward() * -radius ) + view.angles:Up() * radius * pod:GetCameraHeight()
 	local WallOffset = 4
